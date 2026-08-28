@@ -1,0 +1,407 @@
+[07-Mar-2025 16:36:44 Asia/Jakarta] PHP Warning:  require(/home/sidb2685/public_html/../app/Config/Paths.php): Failed to open stream: No such file or directory in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:36:44 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sidb2685/public_html/../app/Config/Paths.php' (include_path='.:/opt/alt/php84/usr/share/pear:/opt/alt/php84/usr/share/php:/usr/share/pear:/usr/share/php') in /home/sidb2685/public_html/index.php:48
+Stack trace:
+#0 {main}
+  thrown in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:36:46 Asia/Jakarta] PHP Warning:  require(/home/sidb2685/public_html/../app/Config/Paths.php): Failed to open stream: No such file or directory in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:36:46 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sidb2685/public_html/../app/Config/Paths.php' (include_path='.:/opt/alt/php84/usr/share/pear:/opt/alt/php84/usr/share/php:/usr/share/pear:/usr/share/php') in /home/sidb2685/public_html/index.php:48
+Stack trace:
+#0 {main}
+  thrown in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:36:49 Asia/Jakarta] PHP Warning:  require(/home/sidb2685/public_html/../app/Config/Paths.php): Failed to open stream: No such file or directory in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:36:49 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sidb2685/public_html/../app/Config/Paths.php' (include_path='.:/opt/alt/php84/usr/share/pear:/opt/alt/php84/usr/share/php:/usr/share/pear:/usr/share/php') in /home/sidb2685/public_html/index.php:48
+Stack trace:
+#0 {main}
+  thrown in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:36:50 Asia/Jakarta] PHP Warning:  require(/home/sidb2685/public_html/../app/Config/Paths.php): Failed to open stream: No such file or directory in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:36:50 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sidb2685/public_html/../app/Config/Paths.php' (include_path='.:/opt/alt/php84/usr/share/pear:/opt/alt/php84/usr/share/php:/usr/share/pear:/usr/share/php') in /home/sidb2685/public_html/index.php:48
+Stack trace:
+#0 {main}
+  thrown in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:39:40 Asia/Jakarta] PHP Warning:  require(/home/sidb2685/public_html/../app/Config/Paths.php): Failed to open stream: No such file or directory in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:39:40 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sidb2685/public_html/../app/Config/Paths.php' (include_path='.:/opt/alt/php84/usr/share/pear:/opt/alt/php84/usr/share/php:/usr/share/pear:/usr/share/php') in /home/sidb2685/public_html/index.php:48
+Stack trace:
+#0 {main}
+  thrown in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:39:49 Asia/Jakarta] PHP Warning:  require(/home/sidb2685/public_html/../app/Config/Paths.php): Failed to open stream: No such file or directory in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:39:49 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sidb2685/public_html/../app/Config/Paths.php' (include_path='.:/opt/alt/php84/usr/share/pear:/opt/alt/php84/usr/share/php:/usr/share/pear:/usr/share/php') in /home/sidb2685/public_html/index.php:48
+Stack trace:
+#0 {main}
+  thrown in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:40:01 Asia/Jakarta] PHP Warning:  require(/home/sidb2685/public_html/../app/Config/Paths.php): Failed to open stream: No such file or directory in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:40:01 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sidb2685/public_html/../app/Config/Paths.php' (include_path='.:/opt/alt/php84/usr/share/pear:/opt/alt/php84/usr/share/php:/usr/share/pear:/usr/share/php') in /home/sidb2685/public_html/index.php:48
+Stack trace:
+#0 {main}
+  thrown in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:40:02 Asia/Jakarta] PHP Warning:  require(/home/sidb2685/public_html/../app/Config/Paths.php): Failed to open stream: No such file or directory in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:40:02 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sidb2685/public_html/../app/Config/Paths.php' (include_path='.:/opt/alt/php84/usr/share/pear:/opt/alt/php84/usr/share/php:/usr/share/pear:/usr/share/php') in /home/sidb2685/public_html/index.php:48
+Stack trace:
+#0 {main}
+  thrown in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:40:08 Asia/Jakarta] PHP Warning:  require(/home/sidb2685/public_html/../app/Config/Paths.php): Failed to open stream: No such file or directory in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:40:08 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sidb2685/public_html/../app/Config/Paths.php' (include_path='.:/opt/alt/php84/usr/share/pear:/opt/alt/php84/usr/share/php:/usr/share/pear:/usr/share/php') in /home/sidb2685/public_html/index.php:48
+Stack trace:
+#0 {main}
+  thrown in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:41:34 Asia/Jakarta] PHP Warning:  require(/home/sidb2685/public_html/../app/Config/Paths.php): Failed to open stream: No such file or directory in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:41:34 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sidb2685/public_html/../app/Config/Paths.php' (include_path='.:/opt/alt/php84/usr/share/pear:/opt/alt/php84/usr/share/php:/usr/share/pear:/usr/share/php') in /home/sidb2685/public_html/index.php:48
+Stack trace:
+#0 {main}
+  thrown in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:41:38 Asia/Jakarta] PHP Warning:  require(/home/sidb2685/public_html/../app/Config/Paths.php): Failed to open stream: No such file or directory in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:41:38 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sidb2685/public_html/../app/Config/Paths.php' (include_path='.:/opt/alt/php84/usr/share/pear:/opt/alt/php84/usr/share/php:/usr/share/pear:/usr/share/php') in /home/sidb2685/public_html/index.php:48
+Stack trace:
+#0 {main}
+  thrown in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:41:43 Asia/Jakarta] PHP Warning:  require(/home/sidb2685/public_html/../app/Config/Paths.php): Failed to open stream: No such file or directory in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:41:43 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sidb2685/public_html/../app/Config/Paths.php' (include_path='.:/opt/alt/php84/usr/share/pear:/opt/alt/php84/usr/share/php:/usr/share/pear:/usr/share/php') in /home/sidb2685/public_html/index.php:48
+Stack trace:
+#0 {main}
+  thrown in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:43:02 Asia/Jakarta] PHP Warning:  require(/home/sidb2685/public_html/../app/Config/Paths.php): Failed to open stream: No such file or directory in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:43:02 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sidb2685/public_html/../app/Config/Paths.php' (include_path='.:/opt/alt/php84/usr/share/pear:/opt/alt/php84/usr/share/php:/usr/share/pear:/usr/share/php') in /home/sidb2685/public_html/index.php:48
+Stack trace:
+#0 {main}
+  thrown in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:43:12 Asia/Jakarta] PHP Warning:  require(/home/sidb2685/public_html/../app/Config/Paths.php): Failed to open stream: No such file or directory in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:43:12 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sidb2685/public_html/../app/Config/Paths.php' (include_path='.:/opt/alt/php84/usr/share/pear:/opt/alt/php84/usr/share/php:/usr/share/pear:/usr/share/php') in /home/sidb2685/public_html/index.php:48
+Stack trace:
+#0 {main}
+  thrown in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:45:00 Asia/Jakarta] PHP Warning:  require(/home/sidb2685/public_html/../app/Config/Paths.php): Failed to open stream: No such file or directory in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:45:00 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sidb2685/public_html/../app/Config/Paths.php' (include_path='.:/opt/alt/php84/usr/share/pear:/opt/alt/php84/usr/share/php:/usr/share/pear:/usr/share/php') in /home/sidb2685/public_html/index.php:48
+Stack trace:
+#0 {main}
+  thrown in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:45:09 Asia/Jakarta] PHP Warning:  require(/home/sidb2685/public_html/../app/Config/Paths.php): Failed to open stream: No such file or directory in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:45:09 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sidb2685/public_html/../app/Config/Paths.php' (include_path='.:/opt/alt/php84/usr/share/pear:/opt/alt/php84/usr/share/php:/usr/share/pear:/usr/share/php') in /home/sidb2685/public_html/index.php:48
+Stack trace:
+#0 {main}
+  thrown in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:46:04 Asia/Jakarta] PHP Warning:  require(/home/sidb2685/public_html/../app/Config/Paths.php): Failed to open stream: No such file or directory in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:46:04 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sidb2685/public_html/../app/Config/Paths.php' (include_path='.:/opt/alt/php84/usr/share/pear:/opt/alt/php84/usr/share/php:/usr/share/pear:/usr/share/php') in /home/sidb2685/public_html/index.php:48
+Stack trace:
+#0 {main}
+  thrown in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:46:07 Asia/Jakarta] PHP Warning:  require(/home/sidb2685/public_html/../app/Config/Paths.php): Failed to open stream: No such file or directory in /home/sidb2685/public_html/index.php on line 48
+[07-Mar-2025 16:46:07 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sidb2685/public_html/../app/Config/Paths.php' (include_path='.:/opt/alt/php84/usr/share/pear:/opt/alt/php84/usr/share/php:/usr/share/pear:/usr/share/php') in /home/sidb2685/public_html/index.php:48
+Stack trace:
+#0 {main}
+  thrown in /home/sidb2685/public_html/index.php on line 48
+[19-Mar-2025 03:50:09 UTC] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 23072768 bytes) in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Debug/Toolbar.php on line 188
+[25-Mar-2025 09:55:03 UTC] PHP Fatal error:  Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse JSON string. Error: Malformed UTF-8 characters, possibly incorrectly encoded in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php:45
+Stack trace:
+#0 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php(45): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON()
+#1 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(345): CodeIgniter\Format\JSONFormatter->format()
+#2 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(103): CodeIgniter\Debug\ExceptionHandler->format()
+#3 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Debug/ExceptionHandler.php(85): CodeIgniter\Debug\ExceptionHandler->respond()
+#4 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Debug/Exceptions.php(162): CodeIgniter\Debug\ExceptionHandler->handle()
+#5 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler()
+#6 {main}
+  thrown in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php on line 45
+[25-Mar-2025 09:55:03 UTC] PHP Fatal error:  Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse JSON string. Error: Malformed UTF-8 characters, possibly incorrectly encoded in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php:45
+Stack trace:
+#0 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php(45): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON()
+#1 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(345): CodeIgniter\Format\JSONFormatter->format()
+#2 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(103): CodeIgniter\Debug\ExceptionHandler->format()
+#3 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Debug/ExceptionHandler.php(85): CodeIgniter\Debug\ExceptionHandler->respond()
+#4 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Debug/Exceptions.php(162): CodeIgniter\Debug\ExceptionHandler->handle()
+#5 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler()
+#6 {main}
+  thrown in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php on line 45
+[27-Mar-2025 15:07:17 UTC] PHP Fatal error:  Uncaught ErrorException: fwrite(): Write of 1624 bytes failed with errno=122 Disk quota exceeded in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Log/Handlers/FileHandler.php:110
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler()
+#1 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Log/Handlers/FileHandler.php(110): fwrite()
+#2 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Log/Logger.php(296): CodeIgniter\Log\Handlers\FileHandler->handle()
+#3 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Common.php(787): CodeIgniter\Log\Logger->log()
+#4 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Debug/Exceptions.php(134): log_message()
+#5 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler()
+#6 {main}
+  thrown in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Log/Handlers/FileHandler.php on line 110
+[27-Mar-2025 15:07:41 UTC] PHP Fatal error:  Uncaught ErrorException: fwrite(): Write of 1626 bytes failed with errno=122 Disk quota exceeded in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Log/Handlers/FileHandler.php:110
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler()
+#1 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Log/Handlers/FileHandler.php(110): fwrite()
+#2 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Log/Logger.php(296): CodeIgniter\Log\Handlers\FileHandler->handle()
+#3 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Common.php(787): CodeIgniter\Log\Logger->log()
+#4 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Debug/Exceptions.php(134): log_message()
+#5 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler()
+#6 {main}
+  thrown in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Log/Handlers/FileHandler.php on line 110
+[27-Mar-2025 15:08:18 UTC] PHP Fatal error:  Uncaught ErrorException: fwrite(): Write of 1626 bytes failed with errno=122 Disk quota exceeded in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Log/Handlers/FileHandler.php:110
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler()
+#1 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Log/Handlers/FileHandler.php(110): fwrite()
+#2 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Log/Logger.php(296): CodeIgniter\Log\Handlers\FileHandler->handle()
+#3 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Common.php(787): CodeIgniter\Log\Logger->log()
+#4 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Debug/Exceptions.php(134): log_message()
+#5 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler()
+#6 {main}
+  thrown in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Log/Handlers/FileHandler.php on line 110
+[27-Mar-2025 15:08:36 UTC] PHP Fatal error:  Uncaught ErrorException[03-Apr-2025 17:12:23 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/sidb2685/public_html/app/Controllers/Auth.php on line 1709
+[04-Apr-2025 12:15:08 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Debug/Toolbar.php on line 188
+[04-Apr-2025 12:18:02 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Log/Logger.php on line 362
+[04-Apr-2025 12:24:14 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Debug/Toolbar.php on line 188
+[04-Apr-2025 12:24:44 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Log/Logger.php on line 362
+[05-Apr-2025 09:02:22 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/sidb2685/public_html/app/Controllers/Auth.php on line 1709
+[05-Apr-2025 09:16:31 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/sidb2685/public_html/app/Controllers/Auth.php on line 1709
+[05-Apr-2025 10:02:06 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/sidb2685/public_html/app/Controllers/Auth.php on line 1709
+[07-Apr-2025 09:27:44 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/sidb2685/public_html/app/Controllers/Auth.php on line 1709
+[07-Apr-2025 09:29:25 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/sidb2685/public_html/app/Controllers/Auth.php on line 1709
+[07-Apr-2025 09:32:52 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/sidb2685/public_html/app/Controllers/Auth.php on line 1709
+[07-Apr-2025 09:38:31 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/sidb2685/public_html/app/Controllers/Auth.php on line 1709
+[07-Apr-2025 09:40:53 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/sidb2685/public_html/app/Controllers/Auth.php on line 1709
+[07-Apr-2025 09:43:37 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/sidb2685/public_html/app/Controllers/Auth.php on line 1709
+[07-Apr-2025 14:12:34 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/sidb2685/public_html/app/Controllers/Auth.php on line 1709
+[07-Apr-2025 14:37:45 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Common.php on line 99
+[29-Apr-2025 09:49:27 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Class "CodeIgniter\Exceptions\InvalidArgumentException" not found in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php:179
+Stack trace:
+#0 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php(129): CodeIgniter\Config\DotEnv->sanitizeValue()
+#1 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php(79): CodeIgniter\Config\DotEnv->normaliseVariable()
+#2 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php(47): CodeIgniter\Config\DotEnv->parse()
+#3 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Boot.php(144): CodeIgniter\Config\DotEnv->load()
+#4 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Boot.php(49): CodeIgniter\Boot::loadDotEnv()
+#5 /home/sidb2685/public_html/index.php(57): CodeIgniter\Boot::bootWeb()
+#6 {main}
+  thrown in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php on line 179
+[29-Apr-2025 09:49:35 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Class "CodeIgniter\Exceptions\InvalidArgumentException" not found in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php:179
+Stack trace:
+#0 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php(129): CodeIgniter\Config\DotEnv->sanitizeValue()
+#1 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php(79): CodeIgniter\Config\DotEnv->normaliseVariable()
+#2 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php(47): CodeIgniter\Config\DotEnv->parse()
+#3 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Boot.php(144): CodeIgniter\Config\DotEnv->load()
+#4 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Boot.php(49): CodeIgniter\Boot::loadDotEnv()
+#5 /home/sidb2685/public_html/index.php(57): CodeIgniter\Boot::bootWeb()
+#6 {main}
+  thrown in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php on line 179
+[29-Apr-2025 09:50:42 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Class "CodeIgniter\Exceptions\InvalidArgumentException" not found in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php:179
+Stack trace:
+#0 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php(129): CodeIgniter\Config\DotEnv->sanitizeValue()
+#1 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php(79): CodeIgniter\Config\DotEnv->normaliseVariable()
+#2 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php(47): CodeIgniter\Config\DotEnv->parse()
+#3 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Boot.php(144): CodeIgniter\Config\DotEnv->load()
+#4 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Boot.php(49): CodeIgniter\Boot::loadDotEnv()
+#5 /home/sidb2685/public_html/index.php(57): CodeIgniter\Boot::bootWeb()
+#6 {main}
+  thrown in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php on line 179
+[29-Apr-2025 09:50:48 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Class "CodeIgniter\Exceptions\InvalidArgumentException" not found in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php:179
+Stack trace:
+#0 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php(129): CodeIgniter\Config\DotEnv->sanitizeValue()
+#1 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php(79): CodeIgniter\Config\DotEnv->normaliseVariable()
+#2 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php(47): CodeIgniter\Config\DotEnv->parse()
+#3 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Boot.php(144): CodeIgniter\Config\DotEnv->load()
+#4 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Boot.php(49): CodeIgniter\Boot::loadDotEnv()
+#5 /home/sidb2685/public_html/index.php(57): CodeIgniter\Boot::bootWeb()
+#6 {main}
+  thrown in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php on line 179
+[29-Apr-2025 09:51:00 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Class "CodeIgniter\Exceptions\InvalidArgumentException" not found in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php:179
+Stack trace:
+#0 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php(129): CodeIgniter\Config\DotEnv->sanitizeValue()
+#1 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php(79): CodeIgniter\Config\DotEnv->normaliseVariable()
+#2 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php(47): CodeIgniter\Config\DotEnv->parse()
+#3 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Boot.php(144): CodeIgniter\Config\DotEnv->load()
+#4 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Boot.php(49): CodeIgniter\Boot::loadDotEnv()
+#5 /home/sidb2685/public_html/index.php(57): CodeIgniter\Boot::bootWeb()
+#6 {main}
+  thrown in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php on line 179
+[29-Apr-2025 09:51:01 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Class "CodeIgniter\Exceptions\InvalidArgumentException" not found in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php:179
+Stack trace:
+#0 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php(129): CodeIgniter\Config\DotEnv->sanitizeValue()
+#1 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php(79): CodeIgniter\Config\DotEnv->normaliseVariable()
+#2 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php(47): CodeIgniter\Config\DotEnv->parse()
+#3 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Boot.php(144): CodeIgniter\Config\DotEnv->load()
+#4 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Boot.php(49): CodeIgniter\Boot::loadDotEnv()
+#5 /home/sidb2685/public_html/index.php(57): CodeIgniter\Boot::bootWeb()
+#6 {main}
+  thrown in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php on line 179
+[29-Apr-2025 09:51:02 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Class "CodeIgniter\Exceptions\InvalidArgumentException" not found in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php:179
+Stack trace:
+#0 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php(129): CodeIgniter\Config\DotEnv->sanitizeValue()
+#1 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php(79): CodeIgniter\Config\DotEnv->normaliseVariable()
+#2 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php(47): CodeIgniter\Config\DotEnv->parse()
+#3 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Boot.php(144): CodeIgniter\Config\DotEnv->load()
+#4 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Boot.php(49): CodeIgniter\Boot::loadDotEnv()
+#5 /home/sidb2685/public_html/index.php(57): CodeIgniter\Boot::bootWeb()
+#6 {main}
+  thrown in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php on line 179
+[29-Apr-2025 09:51:02 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Class "CodeIgniter\Exceptions\InvalidArgumentException" not found in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php:179
+Stack trace:
+#0 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php(129): CodeIgniter\Config\DotEnv->sanitizeValue()
+#1 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php(79): CodeIgniter\Config\DotEnv->normaliseVariable()
+#2 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php(47): CodeIgniter\Config\DotEnv->parse()
+#3 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Boot.php(144): CodeIgniter\Config\DotEnv->load()
+#4 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Boot.php(49): CodeIgniter\Boot::loadDotEnv()
+#5 /home/sidb2685/public_html/index.php(57): CodeIgniter\Boot::bootWeb()
+#6 {main}
+  thrown in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php on line 179
+[29-Apr-2025 09:51:03 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Class "CodeIgniter\Exceptions\InvalidArgumentException" not found in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php:179
+Stack trace:
+#0 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php(129): CodeIgniter\Config\DotEnv->sanitizeValue()
+#1 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php(79): CodeIgniter\Config\DotEnv->normaliseVariable()
+#2 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php(47): CodeIgniter\Config\DotEnv->parse()
+#3 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Boot.php(144): CodeIgniter\Config\DotEnv->load()
+#4 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Boot.php(49): CodeIgniter\Boot::loadDotEnv()
+#5 /home/sidb2685/public_html/index.php(57): CodeIgniter\Boot::bootWeb()
+#6 {main}
+  thrown in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php on line 179
+[29-Apr-2025 09:51:04 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Class "CodeIgniter\Exceptions\InvalidArgumentException" not found in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php:179
+Stack trace:
+#0 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php(129): CodeIgniter\Config\DotEnv->sanitizeValue()
+#1 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php(79): CodeIgniter\Config\DotEnv->normaliseVariable()
+#2 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php(47): CodeIgniter\Config\DotEnv->parse()
+#3 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Boot.php(144): CodeIgniter\Config\DotEnv->load()
+#4 /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Boot.php(49): CodeIgniter\Boot::loadDotEnv()
+#5 /home/sidb2685/public_html/index.php(57): CodeIgniter\Boot::bootWeb()
+#6 {main}
+  thrown in /home/sidb2685/public_html/vendor/codeigniter4/framework/system/Config/DotEnv.php on line 179
+[26-Jan-2026 16:14:18 UTC] PHP Fatal error:  Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse JSON string. Error: Malformed UTF-8 characters, possibly incorrectly encoded in /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php:45
+Stack trace:
+#0 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php(45): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON()
+#1 /home/apir5561/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(345): CodeIgniter\Format\JSONFormatter->format()
+#2 /home/apir5561/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(103): CodeIgniter\Debug\ExceptionHandler->format()
+#3 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Debug/ExceptionHandler.php(85): CodeIgniter\Debug\ExceptionHandler->respond()
+#4 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Debug/Exceptions.php(162): CodeIgniter\Debug\ExceptionHandler->handle()
+#5 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler()
+#6 {main}
+  thrown in /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php on line 45
+[27-Jan-2026 04:59:43 UTC] PHP Fatal error:  Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse JSON string. Error: Malformed UTF-8 characters, possibly incorrectly encoded in /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php:45
+Stack trace:
+#0 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php(45): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON()
+#1 /home/apir5561/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(345): CodeIgniter\Format\JSONFormatter->format()
+#2 /home/apir5561/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(103): CodeIgniter\Debug\ExceptionHandler->format()
+#3 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Debug/ExceptionHandler.php(85): CodeIgniter\Debug\ExceptionHandler->respond()
+#4 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Debug/Exceptions.php(162): CodeIgniter\Debug\ExceptionHandler->handle()
+#5 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler()
+#6 {main}
+  thrown in /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php on line 45
+[27-Jan-2026 05:05:55 UTC] PHP Fatal error:  Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse JSON string. Error: Malformed UTF-8 characters, possibly incorrectly encoded in /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php:45
+Stack trace:
+#0 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php(45): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON()
+#1 /home/apir5561/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(345): CodeIgniter\Format\JSONFormatter->format()
+#2 /home/apir5561/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(103): CodeIgniter\Debug\ExceptionHandler->format()
+#3 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Debug/ExceptionHandler.php(85): CodeIgniter\Debug\ExceptionHandler->respond()
+#4 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Debug/Exceptions.php(162): CodeIgniter\Debug\ExceptionHandler->handle()
+#5 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler()
+#6 {main}
+  thrown in /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php on line 45
+[23-Feb-2026 13:23:58 UTC] PHP Fatal error:  Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse JSON string. Error: Malformed UTF-8 characters, possibly incorrectly encoded in /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php:45
+Stack trace:
+#0 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php(45): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON()
+#1 /home/apir5561/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(345): CodeIgniter\Format\JSONFormatter->format()
+#2 /home/apir5561/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(103): CodeIgniter\Debug\ExceptionHandler->format()
+#3 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Debug/ExceptionHandler.php(85): CodeIgniter\Debug\ExceptionHandler->respond()
+#4 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Debug/Exceptions.php(162): CodeIgniter\Debug\ExceptionHandler->handle()
+#5 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler()
+#6 {main}
+  thrown in /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php on line 45
+[23-Feb-2026 13:31:41 UTC] PHP Fatal error:  Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse JSON string. Error: Malformed UTF-8 characters, possibly incorrectly encoded in /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php:45
+Stack trace:
+#0 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php(45): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON()
+#1 /home/apir5561/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(345): CodeIgniter\Format\JSONFormatter->format()
+#2 /home/apir5561/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(103): CodeIgniter\Debug\ExceptionHandler->format()
+#3 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Debug/ExceptionHandler.php(85): CodeIgniter\Debug\ExceptionHandler->respond()
+#4 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Debug/Exceptions.php(162): CodeIgniter\Debug\ExceptionHandler->handle()
+#5 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler()
+#6 {main}
+  thrown in /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php on line 45
+[12-Mar-2026 19:48:15 UTC] PHP Fatal error:  Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse JSON string. Error: Malformed UTF-8 characters, possibly incorrectly encoded in /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php:45
+Stack trace:
+#0 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php(45): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON()
+#1 /home/apir5561/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(345): CodeIgniter\Format\JSONFormatter->format()
+#2 /home/apir5561/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(103): CodeIgniter\Debug\ExceptionHandler->format()
+#3 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Debug/ExceptionHandler.php(85): CodeIgniter\Debug\ExceptionHandler->respond()
+#4 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Debug/Exceptions.php(162): CodeIgniter\Debug\ExceptionHandler->handle()
+#5 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler()
+#6 {main}
+  thrown in /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php on line 45
+[12-Mar-2026 19:56:20 UTC] PHP Fatal error:  Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse JSON string. Error: Malformed UTF-8 characters, possibly incorrectly encoded in /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php:45
+Stack trace:
+#0 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php(45): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON()
+#1 /home/apir5561/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(345): CodeIgniter\Format\JSONFormatter->format()
+#2 /home/apir5561/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(103): CodeIgniter\Debug\ExceptionHandler->format()
+#3 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Debug/ExceptionHandler.php(85): CodeIgniter\Debug\ExceptionHandler->respond()
+#4 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Debug/Exceptions.php(162): CodeIgniter\Debug\ExceptionHandler->handle()
+#5 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler()
+#6 {main}
+  thrown in /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php on line 45
+[15-Mar-2026 20:32:51 UTC] PHP Fatal error:  Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse JSON string. Error: Malformed UTF-8 characters, possibly incorrectly encoded in /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php:45
+Stack trace:
+#0 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php(45): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON()
+#1 /home/apir5561/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(345): CodeIgniter\Format\JSONFormatter->format()
+#2 /home/apir5561/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(103): CodeIgniter\Debug\ExceptionHandler->format()
+#3 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Debug/ExceptionHandler.php(85): CodeIgniter\Debug\ExceptionHandler->respond()
+#4 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Debug/Exceptions.php(162): CodeIgniter\Debug\ExceptionHandler->handle()
+#5 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler()
+#6 {main}
+  thrown in /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php on line 45
+[15-Mar-2026 20:39:04 UTC] PHP Fatal error:  Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse JSON string. Error: Malformed UTF-8 characters, possibly incorrectly encoded in /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php:45
+Stack trace:
+#0 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php(45): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON()
+#1 /home/apir5561/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(345): CodeIgniter\Format\JSONFormatter->format()
+#2 /home/apir5561/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(103): CodeIgniter\Debug\ExceptionHandler->format()
+#3 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Debug/ExceptionHandler.php(85): CodeIgniter\Debug\ExceptionHandler->respond()
+#4 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Debug/Exceptions.php(162): CodeIgniter\Debug\ExceptionHandler->handle()
+#5 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler()
+#6 {main}
+  thrown in /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php on line 45
+[16-Mar-2026 07:47:57 UTC] PHP Fatal error:  Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse JSON string. Error: Malformed UTF-8 characters, possibly incorrectly encoded in /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php:45
+Stack trace:
+#0 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php(45): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON()
+#1 /home/apir5561/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(345): CodeIgniter\Format\JSONFormatter->format()
+#2 /home/apir5561/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(103): CodeIgniter\Debug\ExceptionHandler->format()
+#3 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Debug/ExceptionHandler.php(85): CodeIgniter\Debug\ExceptionHandler->respond()
+#4 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Debug/Exceptions.php(162): CodeIgniter\Debug\ExceptionHandler->handle()
+#5 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler()
+#6 {main}
+  thrown in /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php on line 45
+[22-Mar-2026 04:46:40 UTC] PHP Fatal error:  Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse JSON string. Error: Malformed UTF-8 characters, possibly incorrectly encoded in /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php:45
+Stack trace:
+#0 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php(45): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON()
+#1 /home/apir5561/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(345): CodeIgniter\Format\JSONFormatter->format()
+#2 /home/apir5561/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(103): CodeIgniter\Debug\ExceptionHandler->format()
+#3 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Debug/ExceptionHandler.php(85): CodeIgniter\Debug\ExceptionHandler->respond()
+#4 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Debug/Exceptions.php(162): CodeIgniter\Debug\ExceptionHandler->handle()
+#5 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler()
+#6 {main}
+  thrown in /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php on line 45
+[18-Apr-2026 23:10:12 UTC] PHP Fatal error:  Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse JSON string. Error: Malformed UTF-8 characters, possibly incorrectly encoded in /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php:45
+Stack trace:
+#0 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php(45): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON()
+#1 /home/apir5561/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(345): CodeIgniter\Format\JSONFormatter->format()
+#2 /home/apir5561/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(103): CodeIgniter\Debug\ExceptionHandler->format()
+#3 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Debug/ExceptionHandler.php(85): CodeIgniter\Debug\ExceptionHandler->respond()
+#4 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Debug/Exceptions.php(162): CodeIgniter\Debug\ExceptionHandler->handle()
+#5 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler()
+#6 {main}
+  thrown in /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php on line 45
+[18-Apr-2026 23:16:06 UTC] PHP Fatal error:  Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse JSON string. Error: Malformed UTF-8 characters, possibly incorrectly encoded in /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php:45
+Stack trace:
+#0 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php(45): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON()
+#1 /home/apir5561/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(345): CodeIgniter\Format\JSONFormatter->format()
+#2 /home/apir5561/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(103): CodeIgniter\Debug\ExceptionHandler->format()
+#3 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Debug/ExceptionHandler.php(85): CodeIgniter\Debug\ExceptionHandler->respond()
+#4 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Debug/Exceptions.php(162): CodeIgniter\Debug\ExceptionHandler->handle()
+#5 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler()
+#6 {main}
+  thrown in /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php on line 45
+[02-Jun-2026 06:43:41 UTC] PHP Fatal error:  Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse JSON string. Error: Malformed UTF-8 characters, possibly incorrectly encoded in /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php:45
+Stack trace:
+#0 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php(45): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON()
+#1 /home/apir5561/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(345): CodeIgniter\Format\JSONFormatter->format()
+#2 /home/apir5561/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(103): CodeIgniter\Debug\ExceptionHandler->format()
+#3 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Debug/ExceptionHandler.php(85): CodeIgniter\Debug\ExceptionHandler->respond()
+#4 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Debug/Exceptions.php(162): CodeIgniter\Debug\ExceptionHandler->handle()
+#5 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler()
+#6 {main}
+  thrown in /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php on line 45
+[02-Jun-2026 06:44:07 UTC] PHP Fatal error:  Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse JSON string. Error: Malformed UTF-8 characters, possibly incorrectly encoded in /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php:45
+Stack trace:
+#0 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php(45): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON()
+#1 /home/apir5561/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(345): CodeIgniter\Format\JSONFormatter->format()
+#2 /home/apir5561/public_html/vendor/codeigniter4/framework/system/API/ResponseTrait.php(103): CodeIgniter\Debug\ExceptionHandler->format()
+#3 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Debug/ExceptionHandler.php(85): CodeIgniter\Debug\ExceptionHandler->respond()
+#4 /home/apir5561/public_html/vendor/codeigniter4/framework/system/Debug/Exceptions.php(162): CodeIgniter\Debug\ExceptionHandler->handle()
+#5 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler()
+#6 {main}
+  thrown in /home/apir5561/public_html/vendor/codeigniter4/framework/system/Format/JSONFormatter.php on line 45
