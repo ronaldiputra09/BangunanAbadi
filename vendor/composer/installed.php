@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'codeigniter4/appstarter',
-        'pretty_version' => 'v4.6.0',
-        'version' => '4.6.0.0',
-        'reference' => '2d17d73e905e3a678d123fae0f230a567f44fa0c',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '47d8c304e2e49b2b3a515580dfd278979a30b761',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'codeigniter4/appstarter' => array(
-            'pretty_version' => 'v4.6.0',
-            'version' => '4.6.0.0',
-            'reference' => '2d17d73e905e3a678d123fae0f230a567f44fa0c',
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '47d8c304e2e49b2b3a515580dfd278979a30b761',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

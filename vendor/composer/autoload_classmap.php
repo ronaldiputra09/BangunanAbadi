@@ -7,11 +7,11 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'App\\Config\\AccurateAPI' => $baseDir . '/app/Config/AccurateAPI.php',
-    'App\\Controllers\\Accurate' => $baseDir . '/app/Controllers/Accurate.php',
     'App\\Controllers\\Auth' => $baseDir . '/app/Controllers/Auth.php',
     'App\\Controllers\\BaseController' => $baseDir . '/app/Controllers/BaseController.php',
     'App\\Controllers\\Home' => $baseDir . '/app/Controllers/Home.php',
     'App\\Controllers\\Login' => $baseDir . '/app/Controllers/Login.php',
+    'App\\Libraries\\ApiBangunanService' => $baseDir . '/app/Libraries/ApiBangunanService.php',
     'App\\Models\\M_Admin' => $baseDir . '/app/Models/M_Admin.php',
     'App\\Models\\M_login' => $baseDir . '/app/Models/M_login.php',
     'CodeIgniter\\API\\ResponseTrait' => $vendorDir . '/codeigniter4/framework/system/API/ResponseTrait.php',
