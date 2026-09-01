@@ -400,10 +400,18 @@
                             try {
                                 result = JSON.parse(responseText);
                             } catch (parseError) {
+                                // Output dd() CodeIgniter berbentuk HTML. Ambil teksnya agar
+                                // isi dump tetap terlihat pada dialog AJAX, bukan hanya di Network.
+                                const debugDocument = new DOMParser().parseFromString(responseText, 'text/html');
+                                const debugText = (debugDocument.body?.textContent || '')
+                                    .replace(/\s+/g, ' ')
+                                    .trim()
+                                    .slice(0, 2000);
+
                                 throw new Error(
-                                    response.ok
-                                        ? 'Respons server bukan JSON yang valid'
-                                        : `HTTP ${response.status}: server tidak mengembalikan detail error JSON`
+                                    debugText
+                                        ? `HTTP ${response.status}: ${debugText}`
+                                        : `HTTP ${response.status}: server tidak mengembalikan detail error`
                                 );
                             }
 

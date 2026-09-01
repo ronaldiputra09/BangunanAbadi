@@ -4617,15 +4617,24 @@ class Auth extends Controller
 
     protected function isAccurateSuccess(?array $responseData, ?int $httpCode = null): bool
     {
-        if ($httpCode !== null && ($httpCode < 200 || $httpCode >= 300)) {
-            return false;
+        $httpSuccess = $httpCode === null || ($httpCode >= 200 && $httpCode < 300);
+        $responseSuccess = $responseData !== null
+            && array_key_exists('s', $responseData)
+            && filter_var($responseData['s'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) === true;
+
+        $success = $httpSuccess && $responseSuccess;
+
+        // DEBUG SEMENTARA: hentikan proses dan tampilkan respons asli Accurate.
+        // Jangan tampilkan access token atau X-Session-ID di dump ini.
+        if (!$success && ENVIRONMENT !== 'testing') {
+            dd([
+                'source' => 'Accurate API',
+                'http_code' => $httpCode ?? ($responseData['_http_code'] ?? null),
+                'response' => $responseData,
+            ]);
         }
 
-        if ($responseData === null || !array_key_exists('s', $responseData)) {
-            return false;
-        }
-
-        return filter_var($responseData['s'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) === true;
+        return $success;
     }
 
     protected function accurateErrorMessage(?array $responseData, string $curlError = ''): string
