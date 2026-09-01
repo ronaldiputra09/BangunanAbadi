@@ -369,22 +369,18 @@
                     }
                 });
 
-                function showResult() {
-                    const errorDetails = errorMessages.length > 0
-                        ? `<hr><div class="text-left"><small>${errorMessages.slice(0, 5).map(escapeHtml).join('<br>')}</small></div>`
-                        : '';
-
-                    Swal.fire({
-                        title: `Sinkronisasi ${title} Selesai!`,
-                        html: `✅ Berhasil: <b>${success}</b><br>❌ Gagal: <b>${failed}</b>${errorDetails}`,
-                        icon: failed > 0 ? 'warning' : 'success',
-                        confirmButtonText: 'OK'
-                    });
-                }
-
                 function processNext() {
                     if (current >= total) {
-                        showResult();
+                        const errorDetails = errorMessages.length > 0
+                            ? `<hr><div class="text-left"><small>${errorMessages.slice(0, 5).map(escapeHtml).join('<br>')}</small></div>`
+                            : '';
+
+                        Swal.fire({
+                            title: `Sinkronisasi ${title} Selesai!`,
+                            html: `✅ Berhasil: <b>${success}</b><br>❌ Gagal: <b>${failed}</b>${errorDetails}`,
+                            icon: failed > 0 ? 'warning' : 'success',
+                            confirmButtonText: 'OK'
+                        });
                         return;
                     }
 
@@ -457,12 +453,10 @@
                             if ((res.status === 'error' || responseFailed > 0) && res.message) {
                                 errorMessages.push(`${trx.transactionNo}: ${res.message}`);
                             }
-
                         })
                         .catch(error => {
                             failed++;
                             errorMessages.push(`${trx.transactionNo}: ${error.message || 'Respons server tidak valid'}`);
-
                         })
                         .finally(() => {
                             current++;
