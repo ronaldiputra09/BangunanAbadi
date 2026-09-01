@@ -3925,8 +3925,8 @@ class Auth extends Controller
 
             $exists = false;
             if (!empty($itemData['d'])) {
-                foreach ($itemData['d'] as $i) {
-                    if ($i['no'] === $itemNo) {
+                foreach ($this->accurateRecords($itemData) as $i) {
+                    if (($i['no'] ?? null) === $itemNo) {
                         $exists = true;
                         break;
                     }
@@ -5201,6 +5201,8 @@ class Auth extends Controller
     public function sync_one_purchase_order()
     {
         $transactionNo = $this->request->getPost('transactionNo');
+
+        try {
         if (!$transactionNo) {
             return $this->syncErrorResponse('No transaksi kosong');
         }
@@ -5237,21 +5239,17 @@ class Auth extends Controller
 
         // Cek & Simpan Vendor jika belum ada
         $checkVendorUrl = $accurateHost . "/accurate/api/vendor/list.do?keyword=" . urlencode($vendorNo) . "&fields=id,vendorNo";
-        $ch = curl_init($checkVendorUrl);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $this->configureAccurateCurl($ch);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            "Authorization: Bearer $accessToken",
-            "X-Session-ID: $sessionID"
-        ]);
-        $response = curl_exec($ch);
-        curl_close($ch);
-        $result = json_decode($response, true);
+        $result = $this->curlGet($checkVendorUrl, $accessToken, $sessionID);
+
+        if (!$this->isAccurateSuccess($result)) {
+            return $this->syncErrorResponse('Gagal memeriksa vendor: ' . $this->accurateErrorMessage($result));
+        }
+
         $vendorExists = false;
 
         if (!empty($result['d'])) {
             foreach ($this->accurateRecords($result) as $cust) {
-                if ($cust['vendorNo'] === $vendorNo) {
+                if (($cust['vendorNo'] ?? null) === $vendorNo) {
                     $vendorExists = true;
                     break;
                 }
@@ -5264,38 +5262,32 @@ class Auth extends Controller
                 'vendorNo' => $vendorNo,
                 'transDate' => date('d/m/Y', strtotime($header['transactionDate'] ?? date('Y-m-d'))),
             ];
-            $ch = curl_init($accurateHost . "/accurate/api/vendor/save.do");
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            $this->configureAccurateCurl($ch);
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                "Authorization: Bearer $accessToken",
-                "X-Session-ID: $sessionID",
-                "Content-Type: application/json"
-            ]);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($saveVendor));
-            curl_exec($ch);
-            curl_close($ch);
+            $vendorResult = $this->curlPost(
+                $accurateHost . "/accurate/api/vendor/save.do",
+                $accessToken,
+                $sessionID,
+                $saveVendor,
+            );
+
+            if (!$this->isAccurateSuccess($vendorResult)) {
+                return $this->syncErrorResponse('Gagal menyimpan vendor: ' . $this->accurateErrorMessage($vendorResult));
+            }
         }
 
         // Cek apakah transaksi sudah ada
         $checkUrl = $accurateHost . "/accurate/api/purchase-order/list.do?filter.number.op=EQUAL&filter.number.val=" . urlencode($transactionNo) . "&fields=id,number&sp.pageSize=1";
-        $ch = curl_init($checkUrl);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $this->configureAccurateCurl($ch);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            "Authorization: Bearer $accessToken",
-            "X-Session-ID: $sessionID"
-        ]);
-        $response = curl_exec($ch);
-        curl_close($ch);
-        $checkData = json_decode($response, true);
+        $checkData = $this->curlGet($checkUrl, $accessToken, $sessionID);
+
+        if (!$this->isAccurateSuccess($checkData)) {
+            return $this->syncErrorResponse('Gagal memeriksa Purchase Order: ' . $this->accurateErrorMessage($checkData));
+        }
+
         $idItem = null;
 
         if (!empty($checkData['d'])) {
             foreach ($this->accurateRecords($checkData) as $item) {
-                if ($item['number'] === $transactionNo) {
-                    $idItem = $item['id'];
+                if (($item['number'] ?? null) === $transactionNo) {
+                    $idItem = $item['id'] ?? null;
                     break;
                 }
             }
@@ -5304,15 +5296,11 @@ class Auth extends Controller
         // Jika ada, delete dulu
         if ($idItem) {
             $deleteUrl = $accurateHost . "/accurate/api/purchase-order/delete.do?id=" . $idItem;
-            $ch = curl_init($deleteUrl);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            $this->configureAccurateCurl($ch);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                "Authorization: Bearer $accessToken",
-                "X-Session-ID: $sessionID"
-            ]);
-            $deleteResponse = curl_exec($ch);
-            curl_close($ch);
+            $deleteResult = $this->curlGet($deleteUrl, $accessToken, $sessionID);
+
+            if (!$this->isAccurateSuccess($deleteResult)) {
+                return $this->syncErrorResponse('Gagal menghapus Purchase Order lama: ' . $this->accurateErrorMessage($deleteResult));
+            }
         }
 
         // Cek dan Simpan Item jika belum ada
@@ -5321,16 +5309,11 @@ class Auth extends Controller
             if (isset($itemCheck[$itemNo])) continue;
 
             $checkItemUrl = $accurateHost . "/accurate/api/item/list.do?keyword=" . urlencode($itemNo) . "&fields=id,no";
-            $ch = curl_init($checkItemUrl);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            $this->configureAccurateCurl($ch);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                "Authorization: Bearer $accessToken",
-                "X-Session-ID: $sessionID"
-            ]);
-            $itemResp = curl_exec($ch);
-            curl_close($ch);
-            $itemData = json_decode($itemResp, true);
+            $itemData = $this->curlGet($checkItemUrl, $accessToken, $sessionID);
+
+            if (!$this->isAccurateSuccess($itemData)) {
+                return $this->syncErrorResponse("Gagal memeriksa item {$itemNo}: " . $this->accurateErrorMessage($itemData));
+            }
 
             $exists = false;
             if (!empty($itemData['d'])) {
@@ -5349,18 +5332,16 @@ class Auth extends Controller
                     'itemType' => 'INVENTORY',
                     'unit1Name' => $row['itemUnitName']
                 ];
-                $ch = curl_init($accurateHost . "/accurate/api/item/save.do");
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                $this->configureAccurateCurl($ch);
-                curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                    "Authorization: Bearer $accessToken",
-                    "X-Session-ID: $sessionID",
-                    "Content-Type: application/json"
-                ]);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($newItem));
-                curl_exec($ch);
-                curl_close($ch);
+                $itemResult = $this->curlPost(
+                    $accurateHost . "/accurate/api/item/save.do",
+                    $accessToken,
+                    $sessionID,
+                    $newItem,
+                );
+
+                if (!$this->isAccurateSuccess($itemResult)) {
+                    return $this->syncErrorResponse("Gagal menyimpan item {$itemNo}: " . $this->accurateErrorMessage($itemResult));
+                }
             }
 
             $itemCheck[$itemNo] = true;
@@ -5388,40 +5369,28 @@ class Auth extends Controller
                 'itemCashDiscount' => floatval($row['discount']),
                 'itemUnitName' => $row['itemUnitName'],
                 'warehouseName' => 'Gudang Pusat',
-                'detailNotes' => $row['detailnotes'] ?? $row['detailNotes'] ?? ''
+                'detailNotes' => isset($row['detailnotes'])
+                    ? (string) $row['detailnotes']
+                    : (isset($row['detailNotes']) ? (string) $row['detailNotes'] : '')
             ];
         }
 
-        $ch = curl_init($accurateHost . "/accurate/api/purchase-order/save.do");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $this->configureAccurateCurl($ch);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            "Authorization: Bearer $accessToken",
-            "X-Session-ID: $sessionID",
-            "Content-Type: application/json"
-        ]);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
         log_message('debug', 'Post JSON: ' . json_encode($postData, JSON_PRETTY_PRINT));
-        $response = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $curlError = curl_error($ch);
-        curl_close($ch);
+        $responseData = $this->curlPost(
+            $accurateHost . "/accurate/api/purchase-order/save.do",
+            $accessToken,
+            $sessionID,
+            $postData,
+        );
 
-        $responseData = json_decode($response, true);
-        log_message('debug', 'Response Accurate: ' . $response);
-        log_message('debug', 'HTTP Code: ' . $httpCode);
-
-
-
-        $sukses = $this->isAccurateSuccess($responseData, $httpCode);
+        $sukses = $this->isAccurateSuccess($responseData);
 
         if (!$sukses) {
             $failCount++;
             $logImport[] = [
                 'transactionNo' => $transactionNo,
                 'status' => 'Gagal',
-                'message' => $this->accurateErrorMessage($responseData, $curlError)
+                'message' => $this->accurateErrorMessage($responseData)
             ];
         } else {
             $successCount++;
@@ -5449,6 +5418,11 @@ class Auth extends Controller
             'gagal' => $failCount,
             'message' => $logImport[0]['message']
         ]);
+        } catch (\Throwable $exception) {
+            log_message('error', "Sync Purchase Order {$transactionNo} gagal: {$exception->getMessage()}");
+
+            return $this->syncErrorResponse($exception->getMessage());
+        }
     }
 
     public function sync_one_receive_item()
