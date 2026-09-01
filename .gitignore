@@ -1,0 +1,22 @@
+# Arsip deployment lokal tidak boleh masuk ke riwayat Git/GitHub.
+Archive.zip
+
+# Metadata macOS.
+.DS_Store
+
+# Konfigurasi lokal dan kredensial.
+.env
+
+# Dependency dan artefak test lokal.
+/vendor/
+/build/
+
+# Data runtime CodeIgniter; folder tetap dibuat saat deployment.
+/writable/cache/*
+/writable/debugbar/*
+/writable/logs/*
+/writable/session/*
+!/writable/cache/.gitkeep
+!/writable/debugbar/.gitkeep
+!/writable/logs/.gitkeep
+!/writable/session/.gitkeep

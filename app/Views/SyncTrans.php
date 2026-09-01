@@ -350,6 +350,13 @@
                 let total = transactions.length;
                 let success = 0;
                 let failed = 0;
+                let errorMessages = [];
+
+                function escapeHtml(value) {
+                    const element = document.createElement('div');
+                    element.textContent = String(value);
+                    return element.innerHTML;
+                }
 
                 Swal.fire({
                     title: `Sinkronisasi ${title} dimulai...`,
@@ -364,9 +371,13 @@
 
                 function processNext() {
                     if (current >= total) {
+                        const errorDetails = errorMessages.length > 0
+                            ? `<hr><div class="text-left"><small>${errorMessages.slice(0, 5).map(escapeHtml).join('<br>')}</small></div>`
+                            : '';
+
                         Swal.fire({
                             title: `Sinkronisasi ${title} Selesai!`,
-                            html: `✅ Berhasil: <b>${success}</b><br>❌ Gagal: <b>${failed}</b>`,
+                            html: `✅ Berhasil: <b>${success}</b><br>❌ Gagal: <b>${failed}</b>${errorDetails}`,
                             icon: failed > 0 ? 'warning' : 'success',
                             confirmButtonText: 'OK'
                         });
@@ -382,17 +393,46 @@
                             },
                             body: "transactionNo=" + encodeURIComponent(trx.transactionNo)
                         })
-                        .then(response => response.json())
-                        .then(res => {
-                            if (res.berhasil) {
-                                success += res.berhasil;
+                        .then(async response => {
+                            const result = await response.json();
+
+                            if (!response.ok) {
+                                throw new Error(result.message || `HTTP ${response.status}`);
                             }
-                            if (res.gagal) {
-                                failed += res.gagal;
+
+                            return result;
+                        })
+                        .then(res => {
+                            const parsedSuccess = Number(res.berhasil ?? 0);
+                            const parsedFailed = Number(res.gagal ?? 0);
+                            const responseSuccess = Number.isFinite(parsedSuccess) ? Math.max(0, parsedSuccess) : 0;
+                            const responseFailed = Number.isFinite(parsedFailed) ? Math.max(0, parsedFailed) : 0;
+
+                            if (responseSuccess > 0) {
+                                success += responseSuccess;
+                            }
+
+                            if (responseFailed > 0) {
+                                failed += responseFailed;
+                            }
+
+                            // Respons lama/error awal tidak selalu membawa counter.
+                            // Setiap request yang selesai harus tetap dihitung sebagai berhasil atau gagal.
+                            if (responseSuccess === 0 && responseFailed === 0) {
+                                if (res.status === 'success') {
+                                    success++;
+                                } else {
+                                    failed++;
+                                }
+                            }
+
+                            if (res.status === 'error' && res.message) {
+                                errorMessages.push(`${trx.transactionNo}: ${res.message}`);
                             }
                         })
-                        .catch(() => {
+                        .catch(error => {
                             failed++;
+                            errorMessages.push(`${trx.transactionNo}: ${error.message || 'Respons server tidak valid'}`);
                         })
                         .finally(() => {
                             current++;

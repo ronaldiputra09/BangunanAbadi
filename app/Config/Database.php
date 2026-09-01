@@ -24,12 +24,12 @@ class Database extends Config
      *
      * @var array<string, mixed>
      */
-     public array $default = [
+    public array $default = [
         'DSN'          => '',
-        'hostname'     => 'coding7.my.id',
-        'username'     => 'codk7191',
-        'password'     => 'UYU3SSUC2DnV63',
-        'database'     => 'codk7191_BangunanAbadi',
+        'hostname'     => '127.0.0.1',
+        'username'     => 'root',
+        'password'     => '',
+        'database'     => 'bangunan_abadi',
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
         'pConnect'     => false,

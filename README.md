@@ -1,68 +1,218 @@
-# CodeIgniter 4 Application Starter
+# Bangunan Abadi — Sync System AOL
 
-## What is CodeIgniter?
+Aplikasi CodeIgniter 4 untuk mengelola pengguna serta menyinkronkan master data dan transaksi antara database Bangunan Abadi dengan Accurate Online (AOL).
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+Dokumen ini membahas proyek dan setup lokal. Panduan production dipisahkan ke [DEPLOYMENT_SHARED_HOSTING.md](DEPLOYMENT_SHARED_HOSTING.md).
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+## Fitur
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+- Login, profil, password, avatar, dan pengelolaan pengguna.
+- OAuth Accurate Online dan pemilihan database Accurate.
+- Sinkronisasi pelanggan, pemasok, karyawan, dan barang.
+- Sinkronisasi purchase order, penerimaan barang, invoice/retur pembelian, invoice/penerimaan/retur penjualan.
+- Sinkronisasi berdasarkan periode atau nomor transaksi.
+- Log sinkronisasi dan endpoint cron otomatis.
+- Ekspor spreadsheet dengan PhpSpreadsheet.
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+## Teknologi
 
-## Installation & updates
+- PHP `^8.1` (terverifikasi lokal dengan PHP 8.4.19)
+- CodeIgniter 4.6.0
+- MySQL/MariaDB melalui MySQLi
+- PhpSpreadsheet 4.1
+- Bootstrap, jQuery, dan aset frontend statis
+- PHPUnit 10
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+Tidak ada proses build Node.js/npm; aset frontend sudah tersedia di folder `assets`.
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+## Struktur penting
 
-## Setup
+```text
+app/
+├── Config/          Konfigurasi dan route
+├── Controllers/     Login, dashboard, dan integrasi Accurate
+├── Libraries/       Service API internal
+├── Models/          Query database
+└── Views/           Tampilan
+assets/              CSS, JavaScript, dan gambar
+upload/              Logo dan avatar publik
+vendor/              Dependency Composer
+writable/            Cache, log, session, dan file sementara
+index.php            Front controller proyek
+router.php           Router PHP development server
+```
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+Proyek telah dimodifikasi untuk hosting: `index.php` berada di root dan `public/index.php` tidak tersedia. Karena itu, gunakan `router.php` untuk lokal dan jangan memakai `php spark serve`.
 
-## Important Change with index.php
+## Persyaratan lokal
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+- PHP 8.1 atau lebih baru.
+- Composer 2.
+- MySQL 8 atau MariaDB yang kompatibel dengan window function `ROW_NUMBER()`.
+- Ekstensi PHP: `curl`, `fileinfo`, `gd`, `intl`, `json`, `mbstring`, `mysqli`, `mysqlnd`, `openssl`, `xml`, dan `zip`.
+- Kredensial OAuth Accurate Online.
+- Database MySQL/MariaDB kosong atau database existing yang kompatibel.
+- Akses outbound HTTP/HTTPS ke API sumber dan Accurate.
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+Schema instalasi baru dibuat oleh migration di `app/Database/Migrations`. Seeder membuat akun administrator awal; data transaksi akan terisi melalui proses sinkronisasi.
 
-**Please** read the user guide for a better explanation of how CI4 works!
+## Setup lokal
 
-## Repository Management
+### 1. Pasang dependency
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+```bash
+composer install
+```
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+Gunakan `composer install`, bukan `composer update`, agar versi mengikuti `composer.lock`.
 
-## Server Requirements
+Jika `vendor` sudah ada tetapi muncul error `Boot.php` tidak ditemukan:
 
-PHP version 8.1 or higher is required, with the following extensions installed:
+```bash
+composer reinstall "*" --no-interaction --prefer-dist
+```
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+### 2. Siapkan database
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
+1. Buat database MySQL/MariaDB lokal yang kosong.
+2. Aktifkan konfigurasi berikut di `.env`:
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+```dotenv
+database.default.hostname = localhost
+database.default.database = nama_database
+database.default.username = nama_user
+database.default.password = 'password_database'
+database.default.DBDriver = MySQLi
+database.default.DBPrefix =
+database.default.port = 3306
+```
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+Nilai `.env` menggantikan default `app/Config/Database.php`. Jangan menyimpan password database di Git.
+
+### 3. Atur environment dan Accurate OAuth
+
+```dotenv
+CI_ENVIRONMENT = development
+app.debug = true
+app.baseURL = 'http://127.0.0.1:8080/'
+app.appTimezone = 'Asia/Jakarta'
+
+ACCURATE_REDIRECT_URI = 'http://127.0.0.1:8080/auth/callback'
+
+SEED_ADMIN_USERNAME = 'admin'
+SEED_ADMIN_PASSWORD = 'ganti-dengan-password-minimal-12-karakter'
+SEED_ACCURATE_CLIENT_ID = ''
+SEED_ACCURATE_CLIENT_SECRET = ''
+```
+
+Daftarkan callback lokal yang sama pada aplikasi developer Accurate. Nilainya harus identik, termasuk skema, host, port, dan path. Client ID/Secret dapat diberikan melalui variabel seed atau menu **Settings** setelah login.
+
+> `.env` saat ini terlacak karena `.gitignore` kosong. Jangan commit perubahan yang berisi kredensial. Perbaiki ignore dan rotasi seluruh kredensial yang pernah tersimpan di repository sebelum digunakan pada production.
+
+### 4. Buat schema dan akun awal
+
+```bash
+php spark migrate --all
+php spark db:seed DatabaseSeeder
+```
+
+`SEED_ADMIN_PASSWORD` wajib diisi dan minimal 12 karakter. Seeder bersifat idempotent: menjalankannya kembali akan memperbarui akun dengan username yang sama, bukan membuat duplikat.
+
+Untuk membatalkan seluruh migration pada database development:
+
+```bash
+php spark migrate:rollback --all
+```
+
+Perintah rollback menghapus tabel beserta datanya. Jangan jalankan pada database yang datanya masih diperlukan.
+
+### 5. Atur folder runtime
+
+```bash
+chmod -R u+rwX writable upload
+```
+
+`writable` dipakai untuk session, cache, debugbar, dan log. `upload` dipakai untuk avatar pengguna.
+
+### 6. Jalankan aplikasi
+
+```bash
+php -S 127.0.0.1:8080 router.php
+```
+
+Buka <http://127.0.0.1:8080>. Hentikan server dengan `Ctrl+C`.
+
+## Verifikasi
+
+```bash
+php spark routes
+php spark config:check App
+composer test
+```
+
+Smoke test halaman dan aset:
+
+```bash
+curl -I http://127.0.0.1:8080/
+curl -I http://127.0.0.1:8080/assets/css/bootstrap.min.css
+curl -I http://127.0.0.1:8080/upload/logo.png
+```
+
+Semua URL tersebut seharusnya merespons HTTP 200. Test saat dokumentasi dibuat: 5 test dan 7 assertions lulus; PHPUnit tetap keluar dengan warning karena driver code coverage tidak terpasang dan konfigurasi mengaktifkan `failOnWarning`.
+
+## Alur penggunaan
+
+1. Login memakai akun dari database aplikasi.
+2. Otorisasi Accurate dan pilih database Accurate.
+3. Sinkronkan master data sebelum transaksi.
+4. Jalankan sinkronisasi periode/nomor transaksi.
+5. Periksa halaman log jika ada data gagal.
+
+Token, session, host, dan database Accurate terpilih disimpan dalam session pengguna. Otorisasi ulang diperlukan setelah session berakhir.
+
+## Endpoint utama
+
+| Area | Endpoint | Keterangan |
+| --- | --- | --- |
+| Login | `/`, `/login` | Halaman login |
+| Accurate | `/auth`, `/auth/callback` | OAuth Accurate |
+| Database Accurate | `/auth/db-list` | Memilih database |
+| Dashboard | `/home` | Halaman utama |
+| Master | `/MasterData`, `/SyncMasterItem` | Sinkronisasi master |
+| Transaksi | `/SyncTransaction`, `/Transaction-no` | Sinkronisasi transaksi |
+| Log | `/home/log` | Riwayat proses |
+| Pengguna | `/users` | Pengelolaan pengguna |
+
+Daftar lengkap tersedia melalui `php spark routes` atau `app/Config/Routes.php`.
+
+## Troubleshooting
+
+### `Boot.php` tidak ditemukan
+
+```bash
+composer reinstall "*" --no-interaction --prefer-dist
+```
+
+### CSS/gambar 404 atau route tidak bekerja
+
+Pastikan perintah lokal memakai router yang disediakan:
+
+```bash
+php -S 127.0.0.1:8080 router.php
+```
+
+### Redirect menuju domain lama
+
+Set `app.baseURL` di `.env` ke URL lokal dan gunakan trailing slash.
+
+### Login/sinkronisasi gagal karena database
+
+Pastikan schema sudah di-import, `database.default.*` benar, server dapat diakses, serta `mysqli` aktif.
+
+### OAuth Accurate gagal
+
+Periksa Client ID pengguna pada menu **Settings** dan `ACCURATE_REDIRECT_URI` di `.env`. Callback `.env` dan portal Accurate harus sama persis.
+
+### Session, log, atau avatar gagal ditulis
+
+Pastikan proses PHP mempunyai izin tulis ke `writable` dan `upload`.

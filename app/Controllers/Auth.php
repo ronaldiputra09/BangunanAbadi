@@ -77,17 +77,23 @@ class Auth extends Controller
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $this->configureAccurateCurl($ch);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Authorization: Bearer " . $accessToken
         ]);
 
         $response = curl_exec($ch);
+        $httpCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlError = curl_error($ch);
         curl_close($ch);
 
-        $data = json_decode($response, true);
+        $data = $this->decodeAccurateResponse($response, $httpCode, $curlError);
 
-        if (!$data) {
-            return $this->response->setJSON(["error" => "Failed to fetch database list."])->setStatusCode(400);
+        if (!$this->isAccurateSuccess($data, $httpCode) || !isset($data['d']) || !is_array($data['d'])) {
+            $message = $this->accurateErrorMessage($data, $curlError);
+            log_message('error', "Accurate db-list gagal (HTTP {$httpCode}): {$message}");
+
+            return $this->response->setJSON(['error' => $message])->setStatusCode(400);
         }
 
         return view('db_list', ['databases' => $data['d'], 'error' => null]);
@@ -108,17 +114,22 @@ class Auth extends Controller
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $this->configureAccurateCurl($ch);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Authorization: Bearer " . $accessToken
         ]);
 
         $response = curl_exec($ch);
+        $httpCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlError = curl_error($ch);
         curl_close($ch);
 
-        $data = json_decode($response, true);
+        $data = $this->decodeAccurateResponse($response, $httpCode, $curlError);
 
-        if (!isset($data['session'])) {
-            $this->session->setflashdata('gagal', 'gagal konek');
+        if (!$this->isAccurateSuccess($data, $httpCode) || empty($data['session']) || empty($data['host'])) {
+            $message = $this->accurateErrorMessage($data, $curlError);
+            log_message('error', "Accurate open-db gagal (HTTP {$httpCode}): {$message}");
+            $this->session->setflashdata('gagal', $message);
             return redirect()->to(base_url('auth/db-list'));
         }
 
@@ -176,6 +187,7 @@ class Auth extends Controller
             $url = $accurateHost . "/accurate/api/customer/save.do";
             $ch = curl_init($url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $this->configureAccurateCurl($ch);
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "Authorization: Bearer " . $accessToken,
@@ -278,6 +290,7 @@ class Auth extends Controller
             $url = $accurateHost . "/accurate/api/item/save.do";
             $ch = curl_init($url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $this->configureAccurateCurl($ch);
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "Authorization: Bearer " . $accessToken,
@@ -374,6 +387,7 @@ class Auth extends Controller
 
                 $ch = curl_init($checkUrl);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $this->configureAccurateCurl($ch);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                     "Authorization: Bearer " . $accessToken,
                     "X-Session-ID: " . $sessionID
@@ -419,6 +433,7 @@ class Auth extends Controller
             $url = $accurateHost . "/accurate/api/customer/save.do";
             $ch = curl_init($url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $this->configureAccurateCurl($ch);
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "Authorization: Bearer " . $accessToken,
@@ -515,6 +530,7 @@ class Auth extends Controller
 
                 $ch = curl_init($checkUrl);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $this->configureAccurateCurl($ch);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                     "Authorization: Bearer " . $accessToken,
                     "X-Session-ID: " . $sessionID
@@ -558,6 +574,7 @@ class Auth extends Controller
             $url = $accurateHost . "/accurate/api/vendor/save.do";
             $ch = curl_init($url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $this->configureAccurateCurl($ch);
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "Authorization: Bearer " . $accessToken,
@@ -648,6 +665,7 @@ class Auth extends Controller
             $checkUrl = $accurateHost . "/accurate/api/employee/list.do?keyword=" . urlencode($transactionNo) . "&fields=id,number";
             $ch = curl_init($checkUrl);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $this->configureAccurateCurl($ch);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "Authorization: Bearer " . $accessToken,
                 "X-Session-ID: " . $sessionID
@@ -685,6 +703,7 @@ class Auth extends Controller
             $url = $accurateHost . "/accurate/api/employee/save.do";
             $ch = curl_init($url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $this->configureAccurateCurl($ch);
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "Authorization: Bearer " . $accessToken,
@@ -779,6 +798,7 @@ class Auth extends Controller
 
                 $ch = curl_init($checkUrl);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $this->configureAccurateCurl($ch);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                     "Authorization: Bearer " . $accessToken,
                     "X-Session-ID: " . $sessionID
@@ -823,6 +843,7 @@ class Auth extends Controller
             $url = $accurateHost . "/accurate/api/item/save.do";
             $ch = curl_init($url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $this->configureAccurateCurl($ch);
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "Authorization: Bearer " . $accessToken,
@@ -925,6 +946,7 @@ class Auth extends Controller
 
                 $ch = curl_init($checkVendorUrl);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $this->configureAccurateCurl($ch);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                     "Authorization: Bearer $accessToken",
                     "X-Session-ID: $sessionID"
@@ -951,6 +973,7 @@ class Auth extends Controller
                     ];
                     $ch = curl_init($accurateHost . "/accurate/api/vendor/save.do");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    $this->configureAccurateCurl($ch);
                     curl_setopt($ch, CURLOPT_POST, true);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, [
                         "Authorization: Bearer $accessToken",
@@ -972,6 +995,7 @@ class Auth extends Controller
 
                 $ch = curl_init($checkUrl);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $this->configureAccurateCurl($ch);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                     "Authorization: Bearer $accessToken",
                     "X-Session-ID: $sessionID"
@@ -1015,6 +1039,7 @@ class Auth extends Controller
 
                     $ch = curl_init($checkItemUrl);
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    $this->configureAccurateCurl($ch);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, [
                         "Authorization: Bearer $accessToken",
                         "X-Session-ID: $sessionID"
@@ -1042,6 +1067,7 @@ class Auth extends Controller
                         ];
                         $ch = curl_init($accurateHost . "/accurate/api/item/save.do");
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        $this->configureAccurateCurl($ch);
                         curl_setopt($ch, CURLOPT_POST, true);
                         curl_setopt($ch, CURLOPT_HTTPHEADER, [
                             "Authorization: Bearer $accessToken",
@@ -1073,6 +1099,7 @@ class Auth extends Controller
                 $deleteUrl = $accurateHost . "/accurate/api/purchase-order/delete.do?id=" . $idItem;
                 $ch = curl_init($deleteUrl);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $this->configureAccurateCurl($ch);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                     "Authorization: Bearer $accessToken",
                     "X-Session-ID: $sessionID"
@@ -1096,6 +1123,7 @@ class Auth extends Controller
             $url = $accurateHost . "/accurate/api/purchase-order/save.do";
             $ch = curl_init($url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $this->configureAccurateCurl($ch);
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "Authorization: Bearer $accessToken",
@@ -1199,6 +1227,7 @@ class Auth extends Controller
 
                 $ch = curl_init($checkVendorUrl);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $this->configureAccurateCurl($ch);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                     "Authorization: Bearer $accessToken",
                     "X-Session-ID: $sessionID"
@@ -1225,6 +1254,7 @@ class Auth extends Controller
                     ];
                     $ch = curl_init($accurateHost . "/accurate/api/vendor/save.do");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    $this->configureAccurateCurl($ch);
                     curl_setopt($ch, CURLOPT_POST, true);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, [
                         "Authorization: Bearer $accessToken",
@@ -1246,6 +1276,7 @@ class Auth extends Controller
 
                 $ch = curl_init($checkUrl);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $this->configureAccurateCurl($ch);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                     "Authorization: Bearer $accessToken",
                     "X-Session-ID: $sessionID"
@@ -1289,6 +1320,7 @@ class Auth extends Controller
 
                     $ch = curl_init($checkItemUrl);
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    $this->configureAccurateCurl($ch);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, [
                         "Authorization: Bearer $accessToken",
                         "X-Session-ID: $sessionID"
@@ -1316,6 +1348,7 @@ class Auth extends Controller
                         ];
                         $ch = curl_init($accurateHost . "/accurate/api/item/save.do");
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        $this->configureAccurateCurl($ch);
                         curl_setopt($ch, CURLOPT_POST, true);
                         curl_setopt($ch, CURLOPT_HTTPHEADER, [
                             "Authorization: Bearer $accessToken",
@@ -1348,6 +1381,7 @@ class Auth extends Controller
                 $deleteUrl = $accurateHost . "/accurate/api/receive-item/delete.do?id=" . $idItem;
                 $ch = curl_init($deleteUrl);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $this->configureAccurateCurl($ch);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                     "Authorization: Bearer " . $accessToken,
                     "X-Session-ID: " . $sessionID
@@ -1373,6 +1407,7 @@ class Auth extends Controller
             $url = $accurateHost . "/accurate/api/receive-item/save.do";
             $ch = curl_init($url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $this->configureAccurateCurl($ch);
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "Authorization: Bearer $accessToken",
@@ -1480,6 +1515,7 @@ class Auth extends Controller
 
                 $ch = curl_init($checkVendorUrl);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $this->configureAccurateCurl($ch);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                     "Authorization: Bearer $accessToken",
                     "X-Session-ID: $sessionID"
@@ -1506,6 +1542,7 @@ class Auth extends Controller
                     ];
                     $ch = curl_init($accurateHost . "/accurate/api/vendor/save.do");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    $this->configureAccurateCurl($ch);
                     curl_setopt($ch, CURLOPT_POST, true);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, [
                         "Authorization: Bearer $accessToken",
@@ -1527,6 +1564,7 @@ class Auth extends Controller
 
                 $ch = curl_init($checkUrl);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $this->configureAccurateCurl($ch);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                     "Authorization: Bearer $accessToken",
                     "X-Session-ID: $sessionID"
@@ -1571,6 +1609,7 @@ class Auth extends Controller
 
                     $ch = curl_init($checkItemUrl);
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    $this->configureAccurateCurl($ch);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, [
                         "Authorization: Bearer $accessToken",
                         "X-Session-ID: $sessionID"
@@ -1598,6 +1637,7 @@ class Auth extends Controller
                         ];
                         $ch = curl_init($accurateHost . "/accurate/api/item/save.do");
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        $this->configureAccurateCurl($ch);
                         curl_setopt($ch, CURLOPT_POST, true);
                         curl_setopt($ch, CURLOPT_HTTPHEADER, [
                             "Authorization: Bearer $accessToken",
@@ -1629,6 +1669,7 @@ class Auth extends Controller
                 $deleteUrl = $accurateHost . "/accurate/api/purchase-invoice/delete.do?id=" . $idItem;
                 $ch = curl_init($deleteUrl);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $this->configureAccurateCurl($ch);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                     "Authorization: Bearer " . $accessToken,
                     "X-Session-ID: " . $sessionID
@@ -1654,6 +1695,7 @@ class Auth extends Controller
             $url = $accurateHost . "/accurate/api/purchase-invoice/save.do";
             $ch = curl_init($url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $this->configureAccurateCurl($ch);
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "Authorization: Bearer $accessToken",
@@ -1761,6 +1803,7 @@ class Auth extends Controller
 
                 $ch = curl_init($checkVendorUrl);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $this->configureAccurateCurl($ch);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                     "Authorization: Bearer $accessToken",
                     "X-Session-ID: $sessionID"
@@ -1787,6 +1830,7 @@ class Auth extends Controller
                     ];
                     $ch = curl_init($accurateHost . "/accurate/api/vendor/save.do");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    $this->configureAccurateCurl($ch);
                     curl_setopt($ch, CURLOPT_POST, true);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, [
                         "Authorization: Bearer $accessToken",
@@ -1808,6 +1852,7 @@ class Auth extends Controller
 
                 $ch = curl_init($checkUrl);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $this->configureAccurateCurl($ch);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                     "Authorization: Bearer $accessToken",
                     "X-Session-ID: $sessionID"
@@ -1853,6 +1898,7 @@ class Auth extends Controller
 
                     $ch = curl_init($checkItemUrl);
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    $this->configureAccurateCurl($ch);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, [
                         "Authorization: Bearer $accessToken",
                         "X-Session-ID: $sessionID"
@@ -1880,6 +1926,7 @@ class Auth extends Controller
                         ];
                         $ch = curl_init($accurateHost . "/accurate/api/item/save.do");
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        $this->configureAccurateCurl($ch);
                         curl_setopt($ch, CURLOPT_POST, true);
                         curl_setopt($ch, CURLOPT_HTTPHEADER, [
                             "Authorization: Bearer $accessToken",
@@ -1912,6 +1959,7 @@ class Auth extends Controller
                 $deleteUrl = $accurateHost . "/accurate/api/purchase-return/delete.do?id=" . $idItem;
                 $ch = curl_init($deleteUrl);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $this->configureAccurateCurl($ch);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                     "Authorization: Bearer " . $accessToken,
                     "X-Session-ID: " . $sessionID
@@ -1937,6 +1985,7 @@ class Auth extends Controller
             $url = $accurateHost . "/accurate/api/purchase-return/save.do";
             $ch = curl_init($url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $this->configureAccurateCurl($ch);
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "Authorization: Bearer $accessToken",
@@ -2044,6 +2093,7 @@ class Auth extends Controller
 
                 $ch = curl_init($checkVendorUrl);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $this->configureAccurateCurl($ch);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                     "Authorization: Bearer $accessToken",
                     "X-Session-ID: $sessionID"
@@ -2070,6 +2120,7 @@ class Auth extends Controller
                     ];
                     $ch = curl_init($accurateHost . "/accurate/api/customer/save.do");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    $this->configureAccurateCurl($ch);
                     curl_setopt($ch, CURLOPT_POST, true);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, [
                         "Authorization: Bearer $accessToken",
@@ -2091,6 +2142,7 @@ class Auth extends Controller
 
                 $ch = curl_init($checkUrl);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $this->configureAccurateCurl($ch);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                     "Authorization: Bearer $accessToken",
                     "X-Session-ID: $sessionID"
@@ -2135,6 +2187,7 @@ class Auth extends Controller
 
                     $ch = curl_init($checkItemUrl);
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    $this->configureAccurateCurl($ch);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, [
                         "Authorization: Bearer $accessToken",
                         "X-Session-ID: $sessionID"
@@ -2162,6 +2215,7 @@ class Auth extends Controller
                         ];
                         $ch = curl_init($accurateHost . "/accurate/api/item/save.do");
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        $this->configureAccurateCurl($ch);
                         curl_setopt($ch, CURLOPT_POST, true);
                         curl_setopt($ch, CURLOPT_HTTPHEADER, [
                             "Authorization: Bearer $accessToken",
@@ -2194,6 +2248,7 @@ class Auth extends Controller
                 $deleteUrl = $accurateHost . "/accurate/api/sales-invoice/delete.do?id=" . $idItem;
                 $ch = curl_init($deleteUrl);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $this->configureAccurateCurl($ch);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                     "Authorization: Bearer " . $accessToken,
                     "X-Session-ID: " . $sessionID
@@ -2219,6 +2274,7 @@ class Auth extends Controller
             $url = $accurateHost . "/accurate/api/sales-invoice/save.do";
             $ch = curl_init($url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $this->configureAccurateCurl($ch);
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "Authorization: Bearer $accessToken",
@@ -2327,6 +2383,7 @@ class Auth extends Controller
 
                 $ch = curl_init($checkVendorUrl);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $this->configureAccurateCurl($ch);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                     "Authorization: Bearer $accessToken",
                     "X-Session-ID: $sessionID"
@@ -2353,6 +2410,7 @@ class Auth extends Controller
                     ];
                     $ch = curl_init($accurateHost . "/accurate/api/customer/save.do");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    $this->configureAccurateCurl($ch);
                     curl_setopt($ch, CURLOPT_POST, true);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, [
                         "Authorization: Bearer $accessToken",
@@ -2374,6 +2432,7 @@ class Auth extends Controller
 
                 $ch = curl_init($checkUrl);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $this->configureAccurateCurl($ch);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                     "Authorization: Bearer $accessToken",
                     "X-Session-ID: $sessionID"
@@ -2417,6 +2476,7 @@ class Auth extends Controller
 
                     $ch = curl_init($checkItemUrl);
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    $this->configureAccurateCurl($ch);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, [
                         "Authorization: Bearer $accessToken",
                         "X-Session-ID: $sessionID"
@@ -2444,6 +2504,7 @@ class Auth extends Controller
                         ];
                         $ch = curl_init($accurateHost . "/accurate/api/item/save.do");
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        $this->configureAccurateCurl($ch);
                         curl_setopt($ch, CURLOPT_POST, true);
                         curl_setopt($ch, CURLOPT_HTTPHEADER, [
                             "Authorization: Bearer $accessToken",
@@ -2475,6 +2536,7 @@ class Auth extends Controller
                 $deleteUrl = $accurateHost . "/accurate/api/sales-return/delete.do?id=" . $idItem;
                 $ch = curl_init($deleteUrl);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $this->configureAccurateCurl($ch);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                     "Authorization: Bearer " . $accessToken,
                     "X-Session-ID: " . $sessionID
@@ -2500,6 +2562,7 @@ class Auth extends Controller
             $url = $accurateHost . "/accurate/api/sales-return/save.do";
             $ch = curl_init($url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $this->configureAccurateCurl($ch);
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "Authorization: Bearer $accessToken",
@@ -3730,7 +3793,7 @@ class Auth extends Controller
     {
         $transactionNo = $this->request->getPost('transactionNo');
         if (!$transactionNo) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'No transaksi kosong']);
+            return $this->syncErrorResponse('No transaksi kosong');
         }
 
         $accurateHost = session()->get('accurate_host');
@@ -3738,7 +3801,7 @@ class Auth extends Controller
         $sessionID   = session()->get('accurate_session');
 
         if (!$accurateHost || !$accessToken || !$sessionID) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Token/session tidak ditemukan']);
+            return $this->syncErrorResponse('Token/session tidak ditemukan');
         }
 
         $Username = $this->session->get('Username');
@@ -3750,7 +3813,7 @@ class Auth extends Controller
         $data = $model->getData('retur_penjualan', ['transactionNo' => $transactionNo]);
 
         if (!$data) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Data tidak ditemukan']);
+            return $this->syncErrorResponse('Data tidak ditemukan');
         }
 
         $grouped = [];
@@ -3767,6 +3830,7 @@ class Auth extends Controller
         $checkCustomerUrl = $accurateHost . "/accurate/api/customer/list.do?keyword=" . urlencode($customerNo) . "&fields=id,customerNo";
         $ch = curl_init($checkCustomerUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $this->configureAccurateCurl($ch);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Authorization: Bearer $accessToken",
             "X-Session-ID: $sessionID"
@@ -3793,6 +3857,7 @@ class Auth extends Controller
             ];
             $ch = curl_init($accurateHost . "/accurate/api/customer/save.do");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $this->configureAccurateCurl($ch);
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "Authorization: Bearer $accessToken",
@@ -3808,6 +3873,7 @@ class Auth extends Controller
         $checkUrl = $accurateHost . "/accurate/api/sales-return/list.do?keyword=" . urlencode($transactionNo) . "&fields=id,number&sp.page={$page}&sp.pageSize=100";
         $ch = curl_init($checkUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $this->configureAccurateCurl($ch);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Authorization: Bearer $accessToken",
             "X-Session-ID: $sessionID"
@@ -3831,6 +3897,7 @@ class Auth extends Controller
             $deleteUrl = $accurateHost . "/accurate/api/sales-return/delete.do?id=" . $idItem;
             $ch = curl_init($deleteUrl);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $this->configureAccurateCurl($ch);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "Authorization: Bearer $accessToken",
                 "X-Session-ID: $sessionID"
@@ -3847,6 +3914,7 @@ class Auth extends Controller
             $checkItemUrl = $accurateHost . "/accurate/api/item/list.do?keyword=" . urlencode($itemNo) . "&fields=id,no";
             $ch = curl_init($checkItemUrl);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $this->configureAccurateCurl($ch);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "Authorization: Bearer $accessToken",
                 "X-Session-ID: $sessionID"
@@ -3874,6 +3942,7 @@ class Auth extends Controller
                 ];
                 $ch = curl_init($accurateHost . "/accurate/api/item/save.do");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $this->configureAccurateCurl($ch);
                 curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                     "Authorization: Bearer $accessToken",
@@ -3913,6 +3982,7 @@ class Auth extends Controller
 
         $ch = curl_init($accurateHost . "/accurate/api/sales-return/save.do");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $this->configureAccurateCurl($ch);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Authorization: Bearer $accessToken",
@@ -3932,12 +4002,14 @@ class Auth extends Controller
 
 
 
-        if ($httpCode !== 200 || (isset($responseData['s']) && $responseData['s'] === false)) {
+        $sukses = $this->isAccurateSuccess($responseData, $httpCode);
+
+        if (!$sukses) {
             $failCount++;
             $logImport[] = [
                 'transactionNo' => $transactionNo,
                 'status' => 'Gagal',
-                'message' => implode(', ', $responseData['d'] ?? ['Terjadi kesalahan'])
+                'message' => $this->accurateErrorMessage($responseData, $curlError)
             ];
         } else {
             $successCount++;
@@ -3947,7 +4019,6 @@ class Auth extends Controller
                 'message' => 'Data berhasil dikirim'
             ];
         }
-        $sukses = ($httpCode === 200) && ($responseData['s'] ?? false) === true;
         // Simpan ke database
         foreach ($logImport as $log) {
             $Data = [
@@ -3955,16 +4026,16 @@ class Auth extends Controller
                 'Status' => $log['status'],
                 'Message' => $log['message'],
                 'Username' => $Username,
-                'TransactionType' => "Purchase_Return"
+                'TransactionType' => "Sales_Return"
             ];
             $this->M_Admin->insertData('log', $Data);
         }
 
         return $this->response->setJSON([
             'status' => ($sukses ? 'success' : 'error'),
-            'berhasil' => $sukses ? 1 : 0,
-            'gagal' => $sukses ? 0 : 1,
-            'message' => $sukses ? 'Berhasil dikirim' : 'Gagal dikirim: ...'
+            'berhasil' => $successCount,
+            'gagal' => $failCount,
+            'message' => $logImport[0]['message']
         ]);
     }
 
@@ -3972,7 +4043,7 @@ class Auth extends Controller
     {
         $transactionNo = $this->request->getPost('transactionNo');
         if (!$transactionNo) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'No transaksi kosong']);
+            return $this->syncErrorResponse('No transaksi kosong');
         }
 
         $accurateHost = session()->get('accurate_host');
@@ -3980,7 +4051,7 @@ class Auth extends Controller
         $sessionID   = session()->get('accurate_session');
 
         if (!$accurateHost || !$accessToken || !$sessionID) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Token/session tidak ditemukan']);
+            return $this->syncErrorResponse('Token/session tidak ditemukan');
         }
 
         $Username = $this->session->get('Username');
@@ -3992,7 +4063,7 @@ class Auth extends Controller
         $data = $model->getData('retur_pembelian', ['transactionNo' => $transactionNo]);
 
         if (!$data) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Data tidak ditemukan']);
+            return $this->syncErrorResponse('Data tidak ditemukan');
         }
 
         $grouped = [];
@@ -4010,6 +4081,7 @@ class Auth extends Controller
 
         $ch = curl_init($checkVendorUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $this->configureAccurateCurl($ch);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Authorization: Bearer $accessToken",
             "X-Session-ID: $sessionID"
@@ -4036,6 +4108,7 @@ class Auth extends Controller
             ];
             $ch = curl_init($accurateHost . "/accurate/api/vendor/save.do");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $this->configureAccurateCurl($ch);
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "Authorization: Bearer $accessToken",
@@ -4051,6 +4124,7 @@ class Auth extends Controller
         $checkUrl = $accurateHost . "/accurate/api/purchase-return/list.do?keyword=" . urlencode($transactionNo) . "&fields=id,number&sp.page={$page}&sp.pageSize=100";
         $ch = curl_init($checkUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $this->configureAccurateCurl($ch);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Authorization: Bearer $accessToken",
             "X-Session-ID: $sessionID"
@@ -4074,6 +4148,7 @@ class Auth extends Controller
             $deleteUrl = $accurateHost . "/accurate/api/purchase-return/delete.do?id=" . $idItem;
             $ch = curl_init($deleteUrl);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $this->configureAccurateCurl($ch);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "Authorization: Bearer $accessToken",
                 "X-Session-ID: $sessionID"
@@ -4090,6 +4165,7 @@ class Auth extends Controller
             $checkItemUrl = $accurateHost . "/accurate/api/item/list.do?keyword=" . urlencode($itemNo) . "&fields=id,no";
             $ch = curl_init($checkItemUrl);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $this->configureAccurateCurl($ch);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "Authorization: Bearer $accessToken",
                 "X-Session-ID: $sessionID"
@@ -4117,6 +4193,7 @@ class Auth extends Controller
                 ];
                 $ch = curl_init($accurateHost . "/accurate/api/item/save.do");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $this->configureAccurateCurl($ch);
                 curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                     "Authorization: Bearer $accessToken",
@@ -4159,6 +4236,7 @@ class Auth extends Controller
 
         $ch = curl_init($accurateHost . "/accurate/api/purchase-return/save.do");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $this->configureAccurateCurl($ch);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Authorization: Bearer $accessToken",
@@ -4178,12 +4256,14 @@ class Auth extends Controller
 
 
 
-        if ($httpCode !== 200 || (isset($responseData['s']) && $responseData['s'] === false)) {
+        $sukses = $this->isAccurateSuccess($responseData, $httpCode);
+
+        if (!$sukses) {
             $failCount++;
             $logImport[] = [
                 'transactionNo' => $transactionNo,
                 'status' => 'Gagal',
-                'message' => implode(', ', $responseData['d'] ?? ['Terjadi kesalahan'])
+                'message' => $this->accurateErrorMessage($responseData, $curlError)
             ];
         } else {
             $successCount++;
@@ -4193,7 +4273,6 @@ class Auth extends Controller
                 'message' => 'Data berhasil dikirim'
             ];
         }
-        $sukses = ($httpCode === 200) && ($responseData['s'] ?? false) === true;
         // Simpan ke database
         foreach ($logImport as $log) {
             $Data = [
@@ -4201,16 +4280,16 @@ class Auth extends Controller
                 'Status' => $log['status'],
                 'Message' => $log['message'],
                 'Username' => $Username,
-                'TransactionType' => "Sales_Return"
+                'TransactionType' => "Purchase_Return"
             ];
             $this->M_Admin->insertData('log', $Data);
         }
 
         return $this->response->setJSON([
             'status' => ($sukses ? 'success' : 'error'),
-            'berhasil' => $sukses ? 1 : 0,
-            'gagal' => $sukses ? 0 : 1,
-            'message' => $sukses ? 'Berhasil dikirim' : 'Gagal dikirim: ...'
+            'berhasil' => $successCount,
+            'gagal' => $failCount,
+            'message' => $logImport[0]['message']
         ]);
     }
 
@@ -4218,7 +4297,7 @@ class Auth extends Controller
     {
         $transactionNos = $this->request->getPost('transactionNo');
         if (!$transactionNos || !is_array($transactionNos)) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Nomor transaksi kosong']);
+            return $this->syncErrorResponse('Nomor transaksi kosong');
         }
 
         $accurateHost = session()->get('accurate_host');
@@ -4226,7 +4305,7 @@ class Auth extends Controller
         $sessionID    = session()->get('accurate_session');
 
         if (!$accurateHost || !$accessToken || !$sessionID) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Token atau session tidak ditemukan']);
+            return $this->syncErrorResponse('Token atau session tidak ditemukan', count($transactionNos));
         }
 
         $Username  = session()->get('Username');
@@ -4237,7 +4316,7 @@ class Auth extends Controller
         // Ambil semua data berdasarkan banyak transaksi
         $data = $model->getData2('invoice_penjualan', $transactionNos);
         if (!$data) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Data transaksi tidak ditemukan']);
+            return $this->syncErrorResponse('Data transaksi tidak ditemukan', count($transactionNos));
         }
 
         // Group data berdasarkan nomor transaksi
@@ -4250,7 +4329,15 @@ class Auth extends Controller
         $failCount = 0;
 
         foreach ($transactionNos as $transactionNo) {
-            if (!isset($groupedData[$transactionNo])) continue;
+            if (!isset($groupedData[$transactionNo])) {
+                $failCount++;
+                $logImport[] = [
+                    'transactionNo' => $transactionNo,
+                    'status' => 'Gagal',
+                    'message' => 'Data transaksi tidak ditemukan',
+                ];
+                continue;
+            }
 
             $rows   = $groupedData[$transactionNo];
             $header = $rows[0];
@@ -4357,12 +4444,12 @@ class Auth extends Controller
             }
 
             $responseData = $this->curlPost($accurateHost . "/accurate/api/sales-invoice/save.do", $accessToken, $sessionID, $postData);
-            $sukses = $responseData['s'] ?? false;
+            $sukses = $this->isAccurateSuccess($responseData);
 
             $logImport[] = [
                 'transactionNo' => $transactionNo,
                 'status' => $sukses ? 'Berhasil' : 'Gagal',
-                'message' => $sukses ? 'Data berhasil dikirim' : implode(', ', $responseData['d'] ?? ['Terjadi kesalahan'])
+                'message' => $sukses ? 'Data berhasil dikirim' : $this->accurateErrorMessage($responseData)
             ];
 
             if ($sukses) $successCount++;
@@ -4392,7 +4479,7 @@ class Auth extends Controller
     {
         $transactionNos = $this->request->getPost('transactionNo');
         if (!$transactionNos || !is_array($transactionNos)) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Nomor transaksi kosong']);
+            return $this->syncErrorResponse('Nomor transaksi kosong');
         }
 
         $accurateHost = session()->get('accurate_host');
@@ -4400,7 +4487,7 @@ class Auth extends Controller
         $sessionID    = session()->get('accurate_session');
 
         if (!$accurateHost || !$accessToken || !$sessionID) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Token atau session tidak ditemukan']);
+            return $this->syncErrorResponse('Token atau session tidak ditemukan', count($transactionNos));
         }
 
         $Username  = session()->get('Username');
@@ -4411,7 +4498,7 @@ class Auth extends Controller
         // Ambil semua data berdasarkan banyak transaksi
         $data = $model->getDataSalesReceipt($transactionNos);
         if (!$data) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Data transaksi tidak ditemukan']);
+            return $this->syncErrorResponse('Data transaksi tidak ditemukan', count($transactionNos));
         }
 
         // Group data berdasarkan nomor transaksi
@@ -4424,7 +4511,15 @@ class Auth extends Controller
         $failCount = 0;
 
         foreach ($transactionNos as $transactionNo) {
-            if (!isset($groupedData[$transactionNo])) continue;
+            if (!isset($groupedData[$transactionNo])) {
+                $failCount++;
+                $logImport[] = [
+                    'transactionNo' => $transactionNo,
+                    'status' => 'Gagal',
+                    'message' => 'Data transaksi tidak ditemukan',
+                ];
+                continue;
+            }
 
             $rows   = $groupedData[$transactionNo];
             $header = $rows[0];
@@ -4476,12 +4571,12 @@ class Auth extends Controller
                     $postData
                 );
 
-                $sukses = $responseData['s'] ?? false;
+                $sukses = $this->isAccurateSuccess($responseData);
 
                 $logImport[] = [
                     'transactionNo' => $postData['number'],
                     'status' => $sukses ? 'Berhasil' : 'Gagal',
-                    'message' => $sukses ? 'Data berhasil dikirim' : implode(', ', $responseData['d'] ?? ['Terjadi kesalahan'])
+                    'message' => $sukses ? 'Data berhasil dikirim' : $this->accurateErrorMessage($responseData)
                 ];
 
                 if ($sukses) $successCount++;
@@ -4489,37 +4584,154 @@ class Auth extends Controller
             }
 
 
-            // Simpan log
-            foreach ($logImport as $log) {
-                $this->M_Admin->insertData('log', [
-                    'TransactionNo' => $log['transactionNo'],
-                    'Status' => $log['status'],
-                    'Message' => $log['message'],
-                    'Username' => $Username,
-                    'TransactionType' => "Sales_Receipt"
-                ]);
-            }
+        }
 
-            return $this->response->setJSON([
-                'status' => ($failCount > 0 ? 'partial' : 'success'),
-                'berhasil' => $successCount,
-                'gagal' => $failCount,
-                'message' => ($failCount > 0 ? 'Sebagian gagal' : 'Semua berhasil dikirim')
+        // Simpan log satu kali setelah seluruh transaksi diproses.
+        foreach ($logImport as $log) {
+            $this->M_Admin->insertData('log', [
+                'TransactionNo' => $log['transactionNo'],
+                'Status' => $log['status'],
+                'Message' => $log['message'],
+                'Username' => $Username,
+                'TransactionType' => "Sales_Receipt"
             ]);
         }
+
+        return $this->response->setJSON([
+            'status' => ($failCount > 0 ? 'partial' : 'success'),
+            'berhasil' => $successCount,
+            'gagal' => $failCount,
+            'message' => ($failCount > 0 ? 'Sebagian gagal' : 'Semua berhasil dikirim')
+        ]);
+    }
+
+    private function syncErrorResponse(string $message, int $failed = 1)
+    {
+        return $this->response->setJSON([
+            'status' => 'error',
+            'berhasil' => 0,
+            'gagal' => $failed,
+            'message' => $message,
+        ]);
+    }
+
+    protected function isAccurateSuccess(?array $responseData, ?int $httpCode = null): bool
+    {
+        if ($httpCode !== null && ($httpCode < 200 || $httpCode >= 300)) {
+            return false;
+        }
+
+        if ($responseData === null || !array_key_exists('s', $responseData)) {
+            return false;
+        }
+
+        return filter_var($responseData['s'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) === true;
+    }
+
+    protected function accurateErrorMessage(?array $responseData, string $curlError = ''): string
+    {
+        if ($curlError !== '') {
+            return $curlError;
+        }
+
+        $details = $responseData['d'] ?? null;
+
+        if (is_array($details)) {
+            $messages = [];
+
+            array_walk_recursive($details, static function ($value) use (&$messages): void {
+                if (is_scalar($value) && (string) $value !== '') {
+                    $messages[] = (string) $value;
+                }
+            });
+
+            if ($messages !== []) {
+                return implode(', ', array_unique($messages));
+            }
+        }
+
+        if (is_scalar($details) && (string) $details !== '') {
+            return (string) $details;
+        }
+
+        return 'Respons Accurate tidak valid atau tidak menyatakan berhasil.';
+    }
+
+    /**
+     * Terapkan opsi jaringan yang wajib dipakai oleh seluruh request Accurate.
+     *
+     * Accurate dapat memindahkan host database dan membalas dengan HTTP 308.
+     * Redirect harus diikuti agar request tetap sampai ke host database terbaru.
+     */
+    private function configureAccurateCurl($ch): void
+    {
+        $options = [
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_MAXREDIRS => 5,
+            CURLOPT_CONNECTTIMEOUT => 15,
+            CURLOPT_TIMEOUT => 120,
+            CURLOPT_ENCODING => '',
+            CURLOPT_USERAGENT => 'BangunanAbadi-Accurate-Sync/1.0',
+        ];
+
+        // Pertahankan metode dan body POST ketika Accurate mengalihkan host.
+        if (defined('CURLOPT_POSTREDIR') && defined('CURL_REDIR_POST_ALL')) {
+            $options[CURLOPT_POSTREDIR] = CURL_REDIR_POST_ALL;
+        }
+
+        curl_setopt_array($ch, $options);
+    }
+
+    private function decodeAccurateResponse($response, int $httpCode, string $curlError): array
+    {
+        if ($response === false || $curlError !== '') {
+            return [
+                's' => false,
+                'd' => ['Koneksi ke Accurate gagal: ' . ($curlError ?: 'respons kosong')],
+                '_http_code' => $httpCode,
+            ];
+        }
+
+        $data = json_decode($response, true, 512, JSON_INVALID_UTF8_SUBSTITUTE);
+
+        if (!is_array($data)) {
+            return [
+                's' => false,
+                'd' => ["Respons Accurate tidak valid (HTTP {$httpCode})."],
+                '_http_code' => $httpCode,
+            ];
+        }
+
+        $data['_http_code'] = $httpCode;
+
+        if ($httpCode < 200 || $httpCode >= 300) {
+            $data['s'] = false;
+
+            if (empty($data['d'])) {
+                $data['d'] = [in_array($httpCode, [401, 403], true)
+                    ? 'Akses Accurate ditolak. Token mungkin kedaluwarsa; silakan hubungkan ulang Accurate.'
+                    : "Accurate mengembalikan HTTP {$httpCode}."];
+            }
+        }
+
+        return $data;
     }
 
     private function curlGet($url, $accessToken, $sessionID)
     {
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $this->configureAccurateCurl($ch);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Authorization: Bearer $accessToken",
             "X-Session-ID: $sessionID"
         ]);
         $response = curl_exec($ch);
+        $httpCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlError = curl_error($ch);
         curl_close($ch);
-        return json_decode($response, true);
+
+        return $this->decodeAccurateResponse($response, $httpCode, $curlError);
     }
 
     private function curlPost($url, $accessToken, $sessionID, $payload)
@@ -4529,6 +4741,7 @@ class Auth extends Controller
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $this->configureAccurateCurl($ch);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Authorization: Bearer $accessToken",
@@ -4537,10 +4750,12 @@ class Auth extends Controller
         ]);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
         $response = curl_exec($ch);
+        $httpCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlError = curl_error($ch);
         curl_close($ch);
 
         log_message('debug', 'Accurate Response: ' . $response);
-        return json_decode($response, true);
+        return $this->decodeAccurateResponse($response, $httpCode, $curlError);
     }
 
 
@@ -4608,10 +4823,7 @@ class Auth extends Controller
     {
         $transactionNo = $this->request->getPost('transactionNo');
         if (!$transactionNo) {
-            return $this->response->setJSON([
-                'status' => 'error',
-                'message' => 'No transaksi kosong'
-            ]);
+            return $this->syncErrorResponse('No transaksi kosong');
         }
 
         $accurateHost = session()->get('accurate_host');
@@ -4619,10 +4831,7 @@ class Auth extends Controller
         $sessionID    = session()->get('accurate_session');
 
         if (!$accurateHost || !$accessToken || !$sessionID) {
-            return $this->response->setJSON([
-                'status' => 'error',
-                'message' => 'Token/session tidak ditemukan'
-            ]);
+            return $this->syncErrorResponse('Token/session tidak ditemukan');
         }
 
         $Username = session()->get('Username');
@@ -4631,10 +4840,7 @@ class Auth extends Controller
         $data = $model->getSingleTransactionSummary($transactionNo);
 
         if (!$data) {
-            return $this->response->setJSON([
-                'status' => 'error',
-                'message' => 'Data tidak ditemukan'
-            ]);
+            return $this->syncErrorResponse('Data tidak ditemukan');
         }
 
         // HAPUS SEMUA SR LAMA (1x SAJA)
@@ -4687,7 +4893,7 @@ class Auth extends Controller
                 $postData
             );
 
-            $sukses = ($responseData['s'] ?? false) === true;
+            $sukses = $this->isAccurateSuccess($responseData);
 
             if ($sukses) {
                 $successCount++;
@@ -4701,7 +4907,7 @@ class Auth extends Controller
                 'Status'         => $sukses ? 'Berhasil' : 'Gagal',
                 'Message'        => $sukses
                     ? 'Data berhasil dikirim'
-                    : implode(', ', $responseData['d'] ?? ['Terjadi kesalahan']),
+                    : $this->accurateErrorMessage($responseData),
                 'Username'       => $Username,
                 'TransactionType' => "Sales_Receipt"
             ]);
@@ -4724,7 +4930,7 @@ class Auth extends Controller
     {
         $transactionNo = $this->request->getPost('transactionNo');
         if (!$transactionNo) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'No transaksi kosong']);
+            return $this->syncErrorResponse('No transaksi kosong');
         }
 
         $accurateHost = session()->get('accurate_host');
@@ -4732,7 +4938,7 @@ class Auth extends Controller
         $sessionID   = session()->get('accurate_session');
 
         if (!$accurateHost || !$accessToken || !$sessionID) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Token/session tidak ditemukan']);
+            return $this->syncErrorResponse('Token/session tidak ditemukan');
         }
 
         $Username = $this->session->get('Username');
@@ -4744,7 +4950,7 @@ class Auth extends Controller
         $data = $model->getData('invoice_penjualan', ['transactionNo' => $transactionNo]);
 
         if (!$data) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Data tidak ditemukan']);
+            return $this->syncErrorResponse('Data tidak ditemukan');
         }
 
         $grouped = [];
@@ -4761,6 +4967,7 @@ class Auth extends Controller
         $checkCustomerUrl = $accurateHost . "/accurate/api/customer/list.do?keyword=" . urlencode($customerNo) . "&fields=id,customerNo";
         $ch = curl_init($checkCustomerUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $this->configureAccurateCurl($ch);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Authorization: Bearer $accessToken",
             "X-Session-ID: $sessionID"
@@ -4787,6 +4994,7 @@ class Auth extends Controller
             ];
             $ch = curl_init($accurateHost . "/accurate/api/customer/save.do");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $this->configureAccurateCurl($ch);
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "Authorization: Bearer $accessToken",
@@ -4802,6 +5010,7 @@ class Auth extends Controller
         $checkUrl = $accurateHost . "/accurate/api/sales-invoice/list.do?filter.number.op=EQUAL&filter.number.val=" . urlencode($transactionNo) . "&fields=id,number&sp.pageSize=1";
         $ch = curl_init($checkUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $this->configureAccurateCurl($ch);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Authorization: Bearer $accessToken",
             "X-Session-ID: $sessionID"
@@ -4825,6 +5034,7 @@ class Auth extends Controller
             $deleteUrl = $accurateHost . "/accurate/api/sales-invoice/delete.do?id=" . $idItem;
             $ch = curl_init($deleteUrl);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $this->configureAccurateCurl($ch);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "Authorization: Bearer $accessToken",
                 "X-Session-ID: $sessionID"
@@ -4841,6 +5051,7 @@ class Auth extends Controller
             $checkItemUrl = $accurateHost . "/accurate/api/item/list.do?keyword=" . urlencode($itemNo) . "&fields=id,no";
             $ch = curl_init($checkItemUrl);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $this->configureAccurateCurl($ch);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "Authorization: Bearer $accessToken",
                 "X-Session-ID: $sessionID"
@@ -4868,6 +5079,7 @@ class Auth extends Controller
                 ];
                 $ch = curl_init($accurateHost . "/accurate/api/item/save.do");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $this->configureAccurateCurl($ch);
                 curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                     "Authorization: Bearer $accessToken",
@@ -4909,6 +5121,7 @@ class Auth extends Controller
 
         $ch = curl_init($accurateHost . "/accurate/api/sales-invoice/save.do");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $this->configureAccurateCurl($ch);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Authorization: Bearer $accessToken",
@@ -4928,12 +5141,14 @@ class Auth extends Controller
 
 
 
-        if ($httpCode !== 200 || (isset($responseData['s']) && $responseData['s'] === false)) {
+        $sukses = $this->isAccurateSuccess($responseData, $httpCode);
+
+        if (!$sukses) {
             $failCount++;
             $logImport[] = [
                 'transactionNo' => $transactionNo,
                 'status' => 'Gagal',
-                'message' => implode(', ', $responseData['d'] ?? ['Terjadi kesalahan'])
+                'message' => $this->accurateErrorMessage($responseData, $curlError)
             ];
         } else {
             $successCount++;
@@ -4943,7 +5158,6 @@ class Auth extends Controller
                 'message' => 'Data berhasil dikirim'
             ];
         }
-        $sukses = ($httpCode === 200) && ($responseData['s'] ?? false) === true;
         // Simpan ke database
         foreach ($logImport as $log) {
             $Data = [
@@ -4958,9 +5172,9 @@ class Auth extends Controller
 
         return $this->response->setJSON([
             'status' => ($sukses ? 'success' : 'error'),
-            'berhasil' => $sukses ? 1 : 0,
-            'gagal' => $sukses ? 0 : 1,
-            'message' => $sukses ? 'Berhasil dikirim' : 'Gagal dikirim: ...'
+            'berhasil' => $successCount,
+            'gagal' => $failCount,
+            'message' => $logImport[0]['message']
         ]);
     }
 
@@ -4968,7 +5182,7 @@ class Auth extends Controller
     {
         $transactionNo = $this->request->getPost('transactionNo');
         if (!$transactionNo) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'No transaksi kosong']);
+            return $this->syncErrorResponse('No transaksi kosong');
         }
 
         $accurateHost = session()->get('accurate_host');
@@ -4976,7 +5190,7 @@ class Auth extends Controller
         $sessionID   = session()->get('accurate_session');
 
         if (!$accurateHost || !$accessToken || !$sessionID) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Token/session tidak ditemukan']);
+            return $this->syncErrorResponse('Token/session tidak ditemukan');
         }
 
         $Username = $this->session->get('Username');
@@ -4988,7 +5202,7 @@ class Auth extends Controller
         $data = $model->getData('pembelian', ['transactionNo' => $transactionNo]);
 
         if (!$data) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Data tidak ditemukan']);
+            return $this->syncErrorResponse('Data tidak ditemukan');
         }
 
         $grouped = [];
@@ -5005,6 +5219,7 @@ class Auth extends Controller
         $checkVendorUrl = $accurateHost . "/accurate/api/vendor/list.do?keyword=" . urlencode($vendorNo) . "&fields=id,vendorNo";
         $ch = curl_init($checkVendorUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $this->configureAccurateCurl($ch);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Authorization: Bearer $accessToken",
             "X-Session-ID: $sessionID"
@@ -5031,6 +5246,7 @@ class Auth extends Controller
             ];
             $ch = curl_init($accurateHost . "/accurate/api/vendor/save.do");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $this->configureAccurateCurl($ch);
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "Authorization: Bearer $accessToken",
@@ -5046,6 +5262,7 @@ class Auth extends Controller
         $checkUrl = $accurateHost . "/accurate/api/purchase-order/list.do?filter.number.op=EQUAL&filter.number.val=" . urlencode($transactionNo) . "&fields=id,number&sp.pageSize=1";
         $ch = curl_init($checkUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $this->configureAccurateCurl($ch);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Authorization: Bearer $accessToken",
             "X-Session-ID: $sessionID"
@@ -5069,6 +5286,7 @@ class Auth extends Controller
             $deleteUrl = $accurateHost . "/accurate/api/purchase-order/delete.do?id=" . $idItem;
             $ch = curl_init($deleteUrl);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $this->configureAccurateCurl($ch);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "Authorization: Bearer $accessToken",
                 "X-Session-ID: $sessionID"
@@ -5085,6 +5303,7 @@ class Auth extends Controller
             $checkItemUrl = $accurateHost . "/accurate/api/item/list.do?keyword=" . urlencode($itemNo) . "&fields=id,no";
             $ch = curl_init($checkItemUrl);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $this->configureAccurateCurl($ch);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "Authorization: Bearer $accessToken",
                 "X-Session-ID: $sessionID"
@@ -5112,6 +5331,7 @@ class Auth extends Controller
                 ];
                 $ch = curl_init($accurateHost . "/accurate/api/item/save.do");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $this->configureAccurateCurl($ch);
                 curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                     "Authorization: Bearer $accessToken",
@@ -5154,6 +5374,7 @@ class Auth extends Controller
 
         $ch = curl_init($accurateHost . "/accurate/api/purchase-order/save.do");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $this->configureAccurateCurl($ch);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Authorization: Bearer $accessToken",
@@ -5173,12 +5394,14 @@ class Auth extends Controller
 
 
 
-        if ($httpCode !== 200 || (isset($responseData['s']) && $responseData['s'] === false)) {
+        $sukses = $this->isAccurateSuccess($responseData, $httpCode);
+
+        if (!$sukses) {
             $failCount++;
             $logImport[] = [
                 'transactionNo' => $transactionNo,
                 'status' => 'Gagal',
-                'message' => implode(', ', $responseData['d'] ?? ['Terjadi kesalahan'])
+                'message' => $this->accurateErrorMessage($responseData, $curlError)
             ];
         } else {
             $successCount++;
@@ -5188,7 +5411,6 @@ class Auth extends Controller
                 'message' => 'Data berhasil dikirim'
             ];
         }
-        $sukses = ($httpCode === 200) && ($responseData['s'] ?? false) === true;
         // Simpan ke database
         foreach ($logImport as $log) {
             $Data = [
@@ -5203,9 +5425,9 @@ class Auth extends Controller
 
         return $this->response->setJSON([
             'status' => ($sukses ? 'success' : 'error'),
-            'berhasil' => $sukses ? 1 : 0,
-            'gagal' => $sukses ? 0 : 1,
-            'message' => $sukses ? 'Berhasil dikirim' : 'Gagal dikirim: ...'
+            'berhasil' => $successCount,
+            'gagal' => $failCount,
+            'message' => $logImport[0]['message']
         ]);
     }
 
@@ -5213,7 +5435,7 @@ class Auth extends Controller
     {
         $transactionNo = $this->request->getPost('transactionNo');
         if (!$transactionNo) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'No transaksi kosong']);
+            return $this->syncErrorResponse('No transaksi kosong');
         }
 
         $accurateHost = session()->get('accurate_host');
@@ -5221,7 +5443,7 @@ class Auth extends Controller
         $sessionID   = session()->get('accurate_session');
 
         if (!$accurateHost || !$accessToken || !$sessionID) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Token/session tidak ditemukan']);
+            return $this->syncErrorResponse('Token/session tidak ditemukan');
         }
 
         $Username = $this->session->get('Username');
@@ -5233,7 +5455,7 @@ class Auth extends Controller
         $data = $model->getDataPenerimaan($transactionNo);
 
         if (!$data) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Data tidak ditemukan']);
+            return $this->syncErrorResponse('Data tidak ditemukan');
         }
 
         $grouped = [];
@@ -5250,6 +5472,7 @@ class Auth extends Controller
         $checkVendorUrl = $accurateHost . "/accurate/api/vendor/list.do?keyword=" . urlencode($vendorNo) . "&fields=id,vendorNo";
         $ch = curl_init($checkVendorUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $this->configureAccurateCurl($ch);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Authorization: Bearer $accessToken",
             "X-Session-ID: $sessionID"
@@ -5276,6 +5499,7 @@ class Auth extends Controller
             ];
             $ch = curl_init($accurateHost . "/accurate/api/vendor/save.do");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $this->configureAccurateCurl($ch);
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "Authorization: Bearer $accessToken",
@@ -5291,6 +5515,7 @@ class Auth extends Controller
         $checkUrl = $accurateHost . "/accurate/api/receive-item/list.do?filter.number.op=EQUAL&filter.number.val=" . urlencode($transactionNo) . "&fields=id,number&sp.pageSize=1";
         $ch = curl_init($checkUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $this->configureAccurateCurl($ch);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Authorization: Bearer $accessToken",
             "X-Session-ID: $sessionID"
@@ -5314,6 +5539,7 @@ class Auth extends Controller
             $deleteUrl = $accurateHost . "/accurate/api/receive-item/delete.do?id=" . $idItem;
             $ch = curl_init($deleteUrl);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $this->configureAccurateCurl($ch);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "Authorization: Bearer $accessToken",
                 "X-Session-ID: $sessionID"
@@ -5330,6 +5556,7 @@ class Auth extends Controller
             $checkItemUrl = $accurateHost . "/accurate/api/item/list.do?keyword=" . urlencode($itemNo) . "&fields=id,no";
             $ch = curl_init($checkItemUrl);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $this->configureAccurateCurl($ch);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "Authorization: Bearer $accessToken",
                 "X-Session-ID: $sessionID"
@@ -5357,6 +5584,7 @@ class Auth extends Controller
                 ];
                 $ch = curl_init($accurateHost . "/accurate/api/item/save.do");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $this->configureAccurateCurl($ch);
                 curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                     "Authorization: Bearer $accessToken",
@@ -5398,6 +5626,7 @@ class Auth extends Controller
 
         $ch = curl_init($accurateHost . "/accurate/api/receive-item/save.do");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $this->configureAccurateCurl($ch);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Authorization: Bearer $accessToken",
@@ -5417,12 +5646,14 @@ class Auth extends Controller
 
 
 
-        if ($httpCode !== 200 || (isset($responseData['s']) && $responseData['s'] === false)) {
+        $sukses = $this->isAccurateSuccess($responseData, $httpCode);
+
+        if (!$sukses) {
             $failCount++;
             $logImport[] = [
                 'transactionNo' => $transactionNo,
                 'status' => 'Gagal',
-                'message' => implode(', ', $responseData['d'] ?? ['Terjadi kesalahan'])
+                'message' => $this->accurateErrorMessage($responseData, $curlError)
             ];
         } else {
             $successCount++;
@@ -5432,7 +5663,6 @@ class Auth extends Controller
                 'message' => 'Data berhasil dikirim'
             ];
         }
-        $sukses = ($httpCode === 200) && ($responseData['s'] ?? false) === true;
         // Simpan ke database
         foreach ($logImport as $log) {
             $Data = [
@@ -5447,9 +5677,9 @@ class Auth extends Controller
 
         return $this->response->setJSON([
             'status' => ($sukses ? 'success' : 'error'),
-            'berhasil' => $sukses ? 1 : 0,
-            'gagal' => $sukses ? 0 : 1,
-            'message' => $sukses ? 'Berhasil dikirim' : 'Gagal dikirim: ...'
+            'berhasil' => $successCount,
+            'gagal' => $failCount,
+            'message' => $logImport[0]['message']
         ]);
     }
 
@@ -5457,7 +5687,7 @@ class Auth extends Controller
     {
         $transactionNo = $this->request->getPost('transactionNo');
         if (!$transactionNo) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'No transaksi kosong']);
+            return $this->syncErrorResponse('No transaksi kosong');
         }
 
         $accurateHost = session()->get('accurate_host');
@@ -5465,7 +5695,7 @@ class Auth extends Controller
         $sessionID   = session()->get('accurate_session');
 
         if (!$accurateHost || !$accessToken || !$sessionID) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Token/session tidak ditemukan']);
+            return $this->syncErrorResponse('Token/session tidak ditemukan');
         }
 
         $Username = $this->session->get('Username');
@@ -5477,7 +5707,7 @@ class Auth extends Controller
         $data = $model->getDataInvoicePembelian2($transactionNo);
 
         if (!$data) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Data tidak ditemukan']);
+            return $this->syncErrorResponse('Data tidak ditemukan');
         }
 
         $grouped = [];
@@ -5494,6 +5724,7 @@ class Auth extends Controller
         $checkUrl = $accurateHost . "/accurate/api/purchase-invoice/list.do?filter.number.op=EQUAL&filter.number.val=" . urlencode($transactionNo) . "&fields=id,number&sp.pageSize=1";
         $ch = curl_init($checkUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $this->configureAccurateCurl($ch);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Authorization: Bearer $accessToken",
             "X-Session-ID: $sessionID"
@@ -5517,6 +5748,7 @@ class Auth extends Controller
             $deleteUrl = $accurateHost . "/accurate/api/purchase-invoice/delete.do?id=" . $idItem;
             $ch = curl_init($deleteUrl);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $this->configureAccurateCurl($ch);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "Authorization: Bearer $accessToken",
                 "X-Session-ID: $sessionID"
@@ -5554,6 +5786,7 @@ class Auth extends Controller
 
         $ch = curl_init($accurateHost . "/accurate/api/purchase-invoice/save.do");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $this->configureAccurateCurl($ch);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Authorization: Bearer $accessToken",
@@ -5573,12 +5806,14 @@ class Auth extends Controller
 
 
 
-        if ($httpCode !== 200 || (isset($responseData['s']) && $responseData['s'] === false)) {
+        $sukses = $this->isAccurateSuccess($responseData, $httpCode);
+
+        if (!$sukses) {
             $failCount++;
             $logImport[] = [
                 'transactionNo' => $transactionNo,
                 'status' => 'Gagal',
-                'message' => implode(', ', $responseData['d'] ?? ['Terjadi kesalahan'])
+                'message' => $this->accurateErrorMessage($responseData, $curlError)
             ];
         } else {
             $successCount++;
@@ -5588,7 +5823,6 @@ class Auth extends Controller
                 'message' => 'Data berhasil dikirim'
             ];
         }
-        $sukses = ($httpCode === 200) && ($responseData['s'] ?? false) === true;
         // Simpan ke database
         foreach ($logImport as $log) {
             $Data = [
@@ -5603,9 +5837,9 @@ class Auth extends Controller
 
         return $this->response->setJSON([
             'status' => ($sukses ? 'success' : 'error'),
-            'berhasil' => $sukses ? 1 : 0,
-            'gagal' => $sukses ? 0 : 1,
-            'message' => $sukses ? 'Berhasil dikirim' : 'Gagal dikirim: ...'
+            'berhasil' => $successCount,
+            'gagal' => $failCount,
+            'message' => $logImport[0]['message']
         ]);
     }
 
