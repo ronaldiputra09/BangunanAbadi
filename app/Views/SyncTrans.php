@@ -345,13 +345,12 @@
         <?php } ?>
 
         <script>
-            function syncAll(transactions, syncUrl, title, stopOnFailure = false) {
+            function syncAll(transactions, syncUrl, title) {
                 let current = 0;
                 let total = transactions.length;
                 let success = 0;
                 let failed = 0;
                 let errorMessages = [];
-                let stoppedAt = null;
 
                 function escapeHtml(value) {
                     const element = document.createElement('div');
@@ -374,15 +373,10 @@
                     const errorDetails = errorMessages.length > 0
                         ? `<hr><div class="text-left"><small>${errorMessages.slice(0, 5).map(escapeHtml).join('<br>')}</small></div>`
                         : '';
-                    const stopMessage = stoppedAt
-                        ? `<br><b>Sync dihentikan pada transaksi ${escapeHtml(stoppedAt)}.</b>`
-                        : '';
 
                     Swal.fire({
-                        title: stoppedAt
-                            ? `Sinkronisasi ${title} Dihentikan`
-                            : `Sinkronisasi ${title} Selesai!`,
-                        html: `✅ Berhasil: <b>${success}</b><br>❌ Gagal: <b>${failed}</b>${stopMessage}${errorDetails}`,
+                        title: `Sinkronisasi ${title} Selesai!`,
+                        html: `✅ Berhasil: <b>${success}</b><br>❌ Gagal: <b>${failed}</b>${errorDetails}`,
                         icon: failed > 0 ? 'warning' : 'success',
                         confirmButtonText: 'OK'
                     });
@@ -464,17 +458,11 @@
                                 errorMessages.push(`${trx.transactionNo}: ${res.message}`);
                             }
 
-                            if (stopOnFailure && (res.status !== 'success' || responseFailed > 0)) {
-                                stoppedAt = trx.transactionNo;
-                            }
                         })
                         .catch(error => {
                             failed++;
                             errorMessages.push(`${trx.transactionNo}: ${error.message || 'Respons server tidak valid'}`);
 
-                            if (stopOnFailure) {
-                                stoppedAt = trx.transactionNo;
-                            }
                         })
                         .finally(() => {
                             current++;
@@ -485,11 +473,7 @@
                        ✅ Berhasil: ${success} | ❌ Gagal: ${failed}`
                             });
 
-                            if (stopOnFailure && stoppedAt) {
-                                showResult();
-                            } else {
-                                setTimeout(processNext, 250); // jeda biar server tidak overload
-                            }
+                            setTimeout(processNext, 250); // jeda biar server tidak overload
                         });
                 }
 
@@ -590,7 +574,7 @@
                         if (data.length === 0) {
                             Swal.fire('Kosong', 'Tidak ada transaksi ditemukan.', 'info');
                         } else {
-                            syncAll(data, "<?= base_url('sync_one_purchase_order') ?>", "Purchase Order", true);
+                            syncAll(data, "<?= base_url('sync_one_purchase_order') ?>", "Purchase Order");
                         }
                     })
                     .catch(() => Swal.fire('Error', 'Gagal mengambil data transaksi.', 'error'));
