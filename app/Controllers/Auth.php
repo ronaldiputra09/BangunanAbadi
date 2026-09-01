@@ -1091,7 +1091,7 @@ class Auth extends Controller
                     'itemCashDiscount' => floatval($row['discount']),
                     'itemUnitName' => $row['itemUnitName'],
                     'warehouseName' => 'Gudang Pusat',
-                    'detailNotes' => $row['detailnotes']
+                    'detailNotes' => $row['detailnotes'] ?? $row['detailNotes'] ?? ''
                 ];
             }
 
@@ -1372,7 +1372,7 @@ class Auth extends Controller
                     'itemCashDiscount' => floatval($row['discount']),
                     'itemUnitName' => $row['itemUnitName'],
                     'warehouseName' => 'Gudang Pusat',
-                    'detailNotes' => $row['detailnotes']
+                    'detailNotes' => $row['detailnotes'] ?? $row['detailNotes'] ?? ''
                 ];
             }
 
@@ -1660,7 +1660,7 @@ class Auth extends Controller
                     'unitPrice' => floatval($row['unitPrice']),
                     'itemCashDiscount' => floatval($row['discount']),
                     'itemUnitName' => $row['itemUnitName'],
-                    'detailNotes' => $row['detailnotes']
+                    'detailNotes' => $row['detailnotes'] ?? $row['detailNotes'] ?? ''
                 ];
             }
 
@@ -1950,7 +1950,7 @@ class Auth extends Controller
                     'itemCashDiscount' => floatval($row['discount']),
                     'itemUnitName' => $row['itemUnitName'],
                     'warehouseName' => 'Gudang Pusat',
-                    'detailNotes' => $row['detailnotes']
+                    'detailNotes' => $row['detailnotes'] ?? $row['detailNotes'] ?? ''
                 ];
             }
 
@@ -2239,7 +2239,7 @@ class Auth extends Controller
                     'itemCashDiscount' => floatval($row['discount']),
                     'itemUnitName' => $row['itemUnitName'],
                     'warehouseName' => 'Gudang Pusat',
-                    'detailNotes' => $row['detailNotes']
+                    'detailNotes' => $row['detailnotes'] ?? $row['detailNotes'] ?? ''
                 ];
             }
 
@@ -2527,7 +2527,7 @@ class Auth extends Controller
                     'unitPrice' => floatval($row['unitPrice']),
                     'itemCashDiscount' => floatval($row['discount']),
                     'itemUnitName' => $row['itemUnitName'],
-                    'detailNotes' => $row['detailNotes']
+                    'detailNotes' => $row['detailnotes'] ?? $row['detailNotes'] ?? ''
                 ];
             }
 
@@ -3976,7 +3976,7 @@ class Auth extends Controller
                 'unitPrice' => floatval($row['unitPrice']),
                 'itemCashDiscount' => floatval($row['discount']),
                 'itemUnitName' => $row['itemUnitName'],
-                'detailNotes' => $row['detailNotes']
+                'detailNotes' => $row['detailnotes'] ?? $row['detailNotes'] ?? ''
             ];
         }
 
@@ -4230,7 +4230,7 @@ class Auth extends Controller
                 'itemCashDiscount' => floatval($row['discount']),
                 'itemUnitName' => $row['itemUnitName'],
                 'warehouseName' => 'Gudang Pusat',
-                'detailNotes' => $row['detailnotes']
+                'detailNotes' => $row['detailnotes'] ?? $row['detailNotes'] ?? ''
             ];
         }
 
@@ -4439,7 +4439,7 @@ class Auth extends Controller
                     'itemCashDiscount' => floatval($row['discount']),
                     'itemUnitName' => $row['itemUnitName'],
                     'warehouseName' => 'Gudang Pusat',
-                    'detailNotes' => $row['detailNotes']
+                    'detailNotes' => $row['detailnotes'] ?? $row['detailNotes'] ?? ''
                 ];
             }
 
@@ -4617,24 +4617,15 @@ class Auth extends Controller
 
     protected function isAccurateSuccess(?array $responseData, ?int $httpCode = null): bool
     {
-        $httpSuccess = $httpCode === null || ($httpCode >= 200 && $httpCode < 300);
-        $responseSuccess = $responseData !== null
-            && array_key_exists('s', $responseData)
-            && filter_var($responseData['s'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) === true;
-
-        $success = $httpSuccess && $responseSuccess;
-
-        // DEBUG SEMENTARA: hentikan proses dan tampilkan respons asli Accurate.
-        // Jangan tampilkan access token atau X-Session-ID di dump ini.
-        if (!$success && ENVIRONMENT !== 'testing') {
-            dd([
-                'source' => 'Accurate API',
-                'http_code' => $httpCode ?? ($responseData['_http_code'] ?? null),
-                'response' => $responseData,
-            ]);
+        if ($httpCode !== null && ($httpCode < 200 || $httpCode >= 300)) {
+            return false;
         }
 
-        return $success;
+        if ($responseData === null || !array_key_exists('s', $responseData)) {
+            return false;
+        }
+
+        return filter_var($responseData['s'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) === true;
     }
 
     protected function accurateErrorMessage(?array $responseData, string $curlError = ''): string
@@ -5144,7 +5135,7 @@ class Auth extends Controller
                 'itemCashDiscount' => floatval($row['discount']),
                 'itemUnitName' => $row['itemUnitName'],
                 'warehouseName' => 'Gudang Pusat',
-                'detailNotes' => $row['detailNotes']
+                'detailNotes' => $row['detailnotes'] ?? $row['detailNotes'] ?? ''
             ];
         }
 
@@ -5397,7 +5388,7 @@ class Auth extends Controller
                 'itemCashDiscount' => floatval($row['discount']),
                 'itemUnitName' => $row['itemUnitName'],
                 'warehouseName' => 'Gudang Pusat',
-                'detailNotes' => $row['detailnotes']
+                'detailNotes' => $row['detailnotes'] ?? $row['detailNotes'] ?? ''
             ];
         }
 
@@ -5648,7 +5639,7 @@ class Auth extends Controller
                 'itemCashDiscount' => floatval($row['discount']),
                 'itemUnitName' => $row['itemUnitName'],
                 'warehouseName' => 'Gudang Pusat',
-                'detailNotes' => $row['detailnotes'],
+                'detailNotes' => $row['detailnotes'] ?? $row['detailNotes'] ?? '',
                 'purchaseOrderNumber' => $row['nomorPO'] ?? null
             ];
         }
@@ -5808,7 +5799,7 @@ class Auth extends Controller
                 'unitPrice' => floatval($row['unitPrice']),
                 'itemCashDiscount' => floatval($row['discount']),
                 'itemUnitName' => $row['itemUnitName'],
-                'detailNotes' => $row['detailnotes'],
+                'detailNotes' => $row['detailnotes'] ?? $row['detailNotes'] ?? '',
                 'receiveItemNumber' => $row['nomorRI'] ?? null
             ];
         }

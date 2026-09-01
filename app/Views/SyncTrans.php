@@ -400,8 +400,8 @@
                             try {
                                 result = JSON.parse(responseText);
                             } catch (parseError) {
-                                // Output dd() CodeIgniter berbentuk HTML. Ambil teksnya agar
-                                // isi dump tetap terlihat pada dialog AJAX, bukan hanya di Network.
+                                // Error PHP/shared hosting dapat berbentuk HTML. Ambil teksnya
+                                // agar penyebab tetap terlihat pada dialog AJAX.
                                 const debugDocument = new DOMParser().parseFromString(responseText, 'text/html');
                                 const debugText = (debugDocument.body?.textContent || '')
                                     .replace(/\s+/g, ' ')
