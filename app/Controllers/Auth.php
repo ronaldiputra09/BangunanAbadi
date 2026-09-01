@@ -399,7 +399,7 @@ class Auth extends Controller
                 log_message('debug', "Check customer {$transactionNo} (page {$page}): " . json_encode($checkData));
 
                 if (isset($checkData['s'], $checkData['d']) && $checkData['s'] && is_array($checkData['d'])) {
-                    foreach ($checkData['d'] as $item) {
+                    foreach ($this->accurateRecords($checkData) as $item) {
                         if (isset($item['customerNo']) && trim($item['customerNo']) === $transactionNo) {
                             $idCustomer = $item['id'];
                             break 2;
@@ -542,7 +542,7 @@ class Auth extends Controller
                 log_message('debug', "Check vendor {$transactionNo} (page {$page}): " . json_encode($checkData));
 
                 if (isset($checkData['s'], $checkData['d']) && $checkData['s'] && is_array($checkData['d'])) {
-                    foreach ($checkData['d'] as $item) {
+                    foreach ($this->accurateRecords($checkData) as $item) {
                         if (isset($item['vendorNo']) && trim($item['vendorNo']) === $transactionNo) {
                             $idVendor = $item['id'];
                             break 2;
@@ -677,7 +677,7 @@ class Auth extends Controller
             log_message('debug', "Check employee {$transactionNo}: " . json_encode($checkData));
             $idVendor = null;
             if (isset($checkData['s']) && $checkData['s'] && isset($checkData['d']) && is_array($checkData['d'])) {
-                foreach ($checkData['d'] as $item) {
+                foreach ($this->accurateRecords($checkData) as $item) {
                     if (isset($item['number']) && trim($item['number']) === $transactionNo) {
                         $idVendor = $item['id'];
                         break;
@@ -810,7 +810,7 @@ class Auth extends Controller
                 log_message('debug', "Check items {$transactionNo} (page {$page}): " . json_encode($checkData));
 
                 if (isset($checkData['s'], $checkData['d']) && $checkData['s'] && is_array($checkData['d'])) {
-                    foreach ($checkData['d'] as $item) {
+                    foreach ($this->accurateRecords($checkData) as $item) {
                         if (isset($item['no']) && trim($item['no']) === $transactionNo) {
                             $idItem = $item['id'];
                             break 2;
@@ -1006,7 +1006,7 @@ class Auth extends Controller
                 log_message('debug', "Check PO {$transactionNo} (page {$page}): " . json_encode($checkData));
 
                 if (isset($checkData['s'], $checkData['d']) && $checkData['s']) {
-                    foreach ($checkData['d'] as $item) {
+                    foreach ($this->accurateRecords($checkData) as $item) {
                         if (isset($item['number']) && trim($item['number']) === $transactionNo) {
                             $idItem = $item['id'];
                             break 2;
@@ -1287,7 +1287,7 @@ class Auth extends Controller
                 log_message('debug', "Check receive item {$transactionNo} (page {$page}): " . json_encode($checkData));
 
                 if (isset($checkData['s'], $checkData['d']) && $checkData['s'] && is_array($checkData['d'])) {
-                    foreach ($checkData['d'] as $item) {
+                    foreach ($this->accurateRecords($checkData) as $item) {
                         if (isset($item['number']) && trim($item['number']) === $transactionNo) {
                             $idItem = $item['id'];
                             break 2;
@@ -1575,7 +1575,7 @@ class Auth extends Controller
                 log_message('debug', "Check receive item {$transactionNo} (page {$page}): " . json_encode($checkData));
 
                 if (isset($checkData['s'], $checkData['d']) && $checkData['s'] && is_array($checkData['d'])) {
-                    foreach ($checkData['d'] as $item) {
+                    foreach ($this->accurateRecords($checkData) as $item) {
                         if (isset($item['number']) && trim($item['number']) === $transactionNo) {
                             $idItem = $item['id'];
                             break 2;
@@ -1863,7 +1863,7 @@ class Auth extends Controller
                 log_message('debug', "Check receive item {$transactionNo} (page {$page}): " . json_encode($checkData));
 
                 if (isset($checkData['s'], $checkData['d']) && $checkData['s'] && is_array($checkData['d'])) {
-                    foreach ($checkData['d'] as $item) {
+                    foreach ($this->accurateRecords($checkData) as $item) {
                         if (isset($item['number']) && trim($item['number']) === $transactionNo) {
                             $idItem = $item['id'];
                             break 2;
@@ -2153,7 +2153,7 @@ class Auth extends Controller
                 log_message('debug', "Check receive item {$transactionNo} (page {$page}): " . json_encode($checkData));
 
                 if (isset($checkData['s'], $checkData['d']) && $checkData['s'] && is_array($checkData['d'])) {
-                    foreach ($checkData['d'] as $item) {
+                    foreach ($this->accurateRecords($checkData) as $item) {
                         if (isset($item['number']) && trim($item['number']) === $transactionNo) {
                             $idItem = $item['id'];
                             break 2;
@@ -2443,7 +2443,7 @@ class Auth extends Controller
                 log_message('debug', "Check receive item {$transactionNo} (page {$page}): " . json_encode($checkData));
 
                 if (isset($checkData['s'], $checkData['d']) && $checkData['s'] && is_array($checkData['d'])) {
-                    foreach ($checkData['d'] as $item) {
+                    foreach ($this->accurateRecords($checkData) as $item) {
                         if (isset($item['number']) && trim($item['number']) === $transactionNo) {
                             $idItem = $item['id'];
                             break 2;
@@ -3841,7 +3841,7 @@ class Auth extends Controller
         $customerExists = false;
 
         if (!empty($result['d'])) {
-            foreach ($result['d'] as $cust) {
+            foreach ($this->accurateRecords($result) as $cust) {
                 if ($cust['customerNo'] === $customerNo) {
                     $customerExists = true;
                     break;
@@ -3884,7 +3884,7 @@ class Auth extends Controller
         $idItem = null;
 
         if (!empty($checkData['d'])) {
-            foreach ($checkData['d'] as $item) {
+            foreach ($this->accurateRecords($checkData) as $item) {
                 if ($item['number'] === $transactionNo) {
                     $idItem = $item['id'];
                     break;
@@ -4135,7 +4135,7 @@ class Auth extends Controller
         $idItem = null;
 
         if (!empty($checkData['d'])) {
-            foreach ($checkData['d'] as $item) {
+            foreach ($this->accurateRecords($checkData) as $item) {
                 if ($item['number'] === $transactionNo) {
                     $idItem = $item['id'];
                     break;
@@ -4373,7 +4373,7 @@ class Auth extends Controller
             $idItem = null;
 
             if (!empty($checkData['d'])) {
-                foreach ($checkData['d'] as $item) {
+                foreach ($this->accurateRecords($checkData) as $item) {
                     if ($item['number'] === $transactionNo) {
                         $idItem = $item['id'];
                         break;
@@ -4537,7 +4537,7 @@ class Auth extends Controller
             $checkData = $this->curlGet($checkUrl, $accessToken, $sessionID);
 
             if (!empty($checkData['d'])) {
-                foreach ($checkData['d'] as $item) {
+                foreach ($this->accurateRecords($checkData) as $item) {
 
                     $deleteUrl = $accurateHost . "/accurate/api/sales-receipt/delete.do?id=" . $item['id'];
 
@@ -4655,6 +4655,26 @@ class Auth extends Controller
         }
 
         return 'Respons Accurate tidak valid atau tidak menyatakan berhasil.';
+    }
+
+    /**
+     * Ambil hanya record berbentuk array dari field data Accurate.
+     * Pada respons gagal, field `d` sering berisi string pesan error. Tanpa
+     * penyaringan, akses seperti $item['id'] akan memicu fatal error HTTP 500.
+     */
+    private function accurateRecords($responseData): array
+    {
+        if (!is_array($responseData)) {
+            return [];
+        }
+
+        $records = $responseData['d'] ?? [];
+
+        if (!is_array($records)) {
+            return [];
+        }
+
+        return array_values(array_filter($records, 'is_array'));
     }
 
     /**
@@ -4856,7 +4876,7 @@ class Auth extends Controller
         $checkData = $this->curlGet($checkUrl, $accessToken, $sessionID);
 
         if (!empty($checkData['d'])) {
-            foreach ($checkData['d'] as $item) {
+            foreach ($this->accurateRecords($checkData) as $item) {
                 $deleteUrl = $accurateHost . "/accurate/api/sales-receipt/delete.do?id=" . $item['id'];
                 $this->curlGet($deleteUrl, $accessToken, $sessionID);
             }
@@ -4978,7 +4998,7 @@ class Auth extends Controller
         $customerExists = false;
 
         if (!empty($result['d'])) {
-            foreach ($result['d'] as $cust) {
+            foreach ($this->accurateRecords($result) as $cust) {
                 if ($cust['customerNo'] === $customerNo) {
                     $customerExists = true;
                     break;
@@ -5021,7 +5041,7 @@ class Auth extends Controller
         $idItem = null;
 
         if (!empty($checkData['d'])) {
-            foreach ($checkData['d'] as $item) {
+            foreach ($this->accurateRecords($checkData) as $item) {
                 if ($item['number'] === $transactionNo) {
                     $idItem = $item['id'];
                     break;
@@ -5230,7 +5250,7 @@ class Auth extends Controller
         $vendorExists = false;
 
         if (!empty($result['d'])) {
-            foreach ($result['d'] as $cust) {
+            foreach ($this->accurateRecords($result) as $cust) {
                 if ($cust['vendorNo'] === $vendorNo) {
                     $vendorExists = true;
                     break;
@@ -5273,7 +5293,7 @@ class Auth extends Controller
         $idItem = null;
 
         if (!empty($checkData['d'])) {
-            foreach ($checkData['d'] as $item) {
+            foreach ($this->accurateRecords($checkData) as $item) {
                 if ($item['number'] === $transactionNo) {
                     $idItem = $item['id'];
                     break;
@@ -5483,7 +5503,7 @@ class Auth extends Controller
         $vendorExists = false;
 
         if (!empty($result['d'])) {
-            foreach ($result['d'] as $cust) {
+            foreach ($this->accurateRecords($result) as $cust) {
                 if ($cust['vendorNo'] === $vendorNo) {
                     $vendorExists = true;
                     break;
@@ -5526,7 +5546,7 @@ class Auth extends Controller
         $idItem = null;
 
         if (!empty($checkData['d'])) {
-            foreach ($checkData['d'] as $item) {
+            foreach ($this->accurateRecords($checkData) as $item) {
                 if ($item['number'] === $transactionNo) {
                     $idItem = $item['id'];
                     break;
@@ -5735,7 +5755,7 @@ class Auth extends Controller
         $idItem = null;
 
         if (!empty($checkData['d'])) {
-            foreach ($checkData['d'] as $item) {
+            foreach ($this->accurateRecords($checkData) as $item) {
                 if ($item['number'] === $transactionNo) {
                     $idItem = $item['id'];
                     break;

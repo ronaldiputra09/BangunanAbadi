@@ -394,10 +394,26 @@
                             body: "transactionNo=" + encodeURIComponent(trx.transactionNo)
                         })
                         .then(async response => {
-                            const result = await response.json();
+                            const responseText = await response.text();
+                            let result;
+
+                            try {
+                                result = JSON.parse(responseText);
+                            } catch (parseError) {
+                                throw new Error(
+                                    response.ok
+                                        ? 'Respons server bukan JSON yang valid'
+                                        : `HTTP ${response.status}: server tidak mengembalikan detail error JSON`
+                                );
+                            }
 
                             if (!response.ok) {
-                                throw new Error(result.message || `HTTP ${response.status}`);
+                                const serverMessage = result.message
+                                    || result.error
+                                    || result.title
+                                    || result.messages?.error;
+
+                                throw new Error(serverMessage || `HTTP ${response.status}`);
                             }
 
                             return result;
@@ -426,7 +442,7 @@
                                 }
                             }
 
-                            if (res.status === 'error' && res.message) {
+                            if ((res.status === 'error' || responseFailed > 0) && res.message) {
                                 errorMessages.push(`${trx.transactionNo}: ${res.message}`);
                             }
                         })

@@ -35,6 +35,13 @@ final class AuthSyncResultTest extends CIUnitTestCase
 
                 return $method->invoke($this, $response, $httpCode, $curlError);
             }
+
+            public function records($response): array
+            {
+                $method = new ReflectionMethod(Auth::class, 'accurateRecords');
+
+                return $method->invoke($this, $response);
+            }
         };
     }
 
@@ -86,5 +93,20 @@ final class AuthSyncResultTest extends CIUnitTestCase
         $this->assertStringContainsString('Connection timed out', $networkError['d'][0]);
         $this->assertFalse($invalidJson['s']);
         $this->assertStringContainsString('HTTP 502', $invalidJson['d'][0]);
+    }
+
+    public function testAccurateRecordsFiltersErrorMessagesBeforeArrayOffsetAccess(): void
+    {
+        $response = [
+            's' => false,
+            'd' => ['Internal server error', ['id' => 123, 'number' => 'INV-1']],
+        ];
+
+        $this->assertSame(
+            [['id' => 123, 'number' => 'INV-1']],
+            $this->controller->records($response),
+        );
+        $this->assertSame([], $this->controller->records(['s' => false, 'd' => 'HTTP 500']));
+        $this->assertSame([], $this->controller->records('<html>Server Error</html>'));
     }
 }
