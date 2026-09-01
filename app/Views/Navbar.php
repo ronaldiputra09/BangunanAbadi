@@ -63,7 +63,9 @@
                             Settings
                         </a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="<?php echo base_url('home/logout') ?>">
+                        <a class="dropdown-item"
+                            href="<?php echo base_url('home/logout') ?>"
+                            onclick="logoutAppAndAccurate(event)">
                             <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                             Logout
                         </a>
@@ -74,3 +76,22 @@
 
         </nav>
         <!-- End of Topbar -->
+
+        <script>
+            function logoutAppAndAccurate(event) {
+                event.preventDefault();
+
+                // Harus dibuka langsung dari aksi klik agar tidak diblokir browser.
+                const accurateLogout = window.open(
+                    'https://account.accurate.id/idp/slo',
+                    'accurateLogout',
+                    'width=560,height=650,noopener,noreferrer'
+                );
+
+                if (accurateLogout) {
+                    accurateLogout.opener = null;
+                }
+
+                window.location.assign(<?= json_encode(base_url('home/logout')) ?>);
+            }
+        </script>

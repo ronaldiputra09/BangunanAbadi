@@ -129,8 +129,18 @@ class Home extends BaseController
 
   public function Logout()
   {
-    session_destroy();
-    return view('login');
+    // Hapus seluruh kredensial integrasi Accurate sebelum session aplikasi
+    // dihancurkan. Ini mencegah token/session database dipakai kembali.
+    $this->session->remove([
+      'access_token',
+      'accurate_session',
+      'accurate_host',
+      'selected_db',
+    ]);
+
+    $this->session->destroy();
+
+    return redirect()->to(base_url('login'));
   }
 
   private function hash_password($Password)
