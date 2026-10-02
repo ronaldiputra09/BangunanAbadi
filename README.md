@@ -2,6 +2,8 @@
 
 Aplikasi CodeIgniter 4 untuk mengelola pengguna serta menyinkronkan master data dan transaksi antara database Bangunan Abadi dengan Accurate Online (AOL).
 
+Panduan pengguna lengkap tersedia dalam [PDF bergambar](output/pdf/Panduan_Pengguna_Bangunan_Abadi.pdf) dan [versi Markdown](output/pdf/Panduan_Pengguna_Bangunan_Abadi.md). PDF mencakup 31 halaman dan 16 screenshot; tampilan setelah login memakai data demonstrasi dari template aplikasi asli.
+
 Dokumen ini membahas proyek dan setup lokal. Panduan production dipisahkan ke [DEPLOYMENT_SHARED_HOSTING.md](DEPLOYMENT_SHARED_HOSTING.md).
 
 ## Fitur
